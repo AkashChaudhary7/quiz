@@ -459,7 +459,7 @@
                 initializeQuiz(); 
             } catch (error) {
                 console.error("क्विज़ डेटा लोड करने में त्रुटि हुई:", error);
-                loadingOverlay.innerHTML = `<p style="color: var(--alert-color);">डेटा लोड करने में त्रुटि। सुनिश्चित करें कि 'data/' फ़ोल्डर और JSON फ़ाइलें मौजूद हैं।</p>`;
+                loadingOverlay.innerHTML = `<p style="color: var(--alert-color);">डेटा लोड करने में त्रुटि। सुनिश्चित करें कि 'data/' फ़ोल्डर मौजूद है और JSON फ़ाइलों में कोई सिंटैक्स त्रुटि (जैसे कि 'comment' या अवांछित कॉमा) नहीं है।</p><p style="font-size:0.8em; color:#333;">त्रुटि विवरण: ${error.message}</p>`;
             }
         }
         
