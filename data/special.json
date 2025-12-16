@@ -1,0 +1,12 @@
+{
+  "chapter": { "code": "SI मात्रक और सूत्र", "name": "विशेष: सभी SI मात्रक और रासायनिक सूत्र (50 प्रश्न)", "sub": "सामान्य विज्ञान" },
+  "questions": [
+    { "id": 1, "question": "विद्युत आवेश (Electric Charge) का SI मात्रक क्या है?", "options": ["एम्पीयर", "कूलाम्ब", "ओम", "वोल्ट"], "answer": "कूलाम्ब", "chapter": "SI मात्रक और सूत्र", "type": "mcq" },
+    { "id": 2, "question": "शक्ति (Power) का SI मात्रक वॉट (Watt) है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" },
+    { "id": 3, "question": "प्लास्टर ऑफ पेरिस का रासायनिक सूत्र है: ____।", "options": ["CaSO₄.2H₂O", "CaSO₄.1/2H₂O", "CaCO₃", "CaCl₂"], "answer": "CaSO₄.1/2H₂O", "chapter": "SI मात्रक और सूत्र", "type": "fill_in_the_blanks" },
+    { "id": 4, "question": "साधारण नमक (Common Salt) का रासायनिक सूत्र ____ है।", "options": ["KCl", "Na₂CO₃", "NaCl", "Ca(OH)₂"], "answer": "NaCl", "chapter": "SI मात्रक और सूत्र", "type": "fill_in_the_blanks" },
+    { "id": 5, "question": "आवृत्ति (Frequency) का SI मात्रक हर्ट्ज़ (Hz) है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" },
+    
+    // [!!! महत्वपूर्ण: आपको यहाँ शेष 45 प्रश्न (कुल 50 प्रश्न) जोड़ने होंगे !!!]
+  ]
+}
