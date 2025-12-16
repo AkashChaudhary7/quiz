@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>कक्षा 9 और 10 विज्ञान क्विज़</title>
+    <title>विज्ञान क्विज़ | कक्षा 9 & 10</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* सामान्य स्टाइलिंग */
+        /* --- UI और स्टाइलिंग (पिछले वर्जन से मॉडर्न CSS) --- */
+        :root {
+            --primary-color: #007bff; /* नीला */
+            --secondary-color: #28a745; /* हरा */
+            --alert-color: #dc3545; /* लाल */
+            --warning-color: #ffc107; /* पीला */
+            --text-color: #343a40;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+            background-color: var(--bg-light);
+            color: var(--text-color);
             line-height: 1.6;
             margin: 0;
             padding: 0;
@@ -21,247 +35,314 @@
         }
 
         .container {
-            max-width: 900px;
-            width: 90%;
-            margin: 20px;
+            max-width: 950px;
+            width: 95%;
+            margin: 20px auto;
             background: #fff;
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         h1 {
-            color: #007bff;
-            border-bottom: 3px solid #007bff;
-            padding-bottom: 15px;
-            margin-bottom: 40px;
-            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.2em;
             font-weight: 700;
         }
-
-        /* --- मेनू स्टाइलिंग --- */
-        .menu-screen {
+        
+        /* Loading Spinner */
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 10000;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--primary-color);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .mode-button {
-            width: 80%;
-            padding: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
+        /* --- बटन स्टाइलिंग --- */
+        .mode-button, .action-btn, #pause-resume-btn, #lifeline-btn {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: 600;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
         }
-        
-        /* क्लास और अध्याय-वार बटन */
-        .class-btn, #chapter-wise-btn {
-            background-color: #28a745; /* हरा */
+
+        .main-btn {
+            background-color: var(--secondary-color);
             color: white;
         }
-        .class-btn:hover, #chapter-wise-btn:hover {
+        .main-btn:hover {
             background-color: #1e7e34;
-            transform: translateY(-2px);
-        }
-
-        /* रैंडम बटन */
-        #random-question-btn {
-            background-color: #ffc107; /* पीला */
-            color: #333;
-        }
-        #random-question-btn:hover {
-            background-color: #e0a800;
-            transform: translateY(-2px);
-        }
-
-        /* --- अध्याय चयन (Chapter Selection) स्टाइलिंग --- */
-        #chapter-selection {
-            text-align: left;
-        }
-        
-        .chapters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 10px;
-        }
-
-        .chapter-box {
-            background-color: #e9f5ff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-            cursor: pointer;
-            border: 1px solid #cce0ff;
-            text-align: center;
-        }
-
-        .chapter-box:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            background-color: #d1e7ff;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .chapter-box h3 {
-            margin: 0;
-            font-size: 1.1em;
-            color: #0056b3;
-            font-weight: 600;
+        .action-btn {
+            background-color: var(--primary-color);
+            color: white;
         }
-
-        .chapter-box p {
-            margin: 5px 0 0;
-            font-size: 0.8em;
-            color: #666;
+        .action-btn:hover:not(:disabled) {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        .action-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         
-        /* विशेष अध्याय (Special Chapter) */
-        .chapter-box[data-chapter-code="SI मात्रक और सूत्र"] {
-            background-color: #ffcccc; /* लाल/गुलाबी */
-            border-color: #ff3333;
+        .skip-btn {
+            background-color: #6c757d;
+            color: white;
         }
-        .chapter-box[data-chapter-code="SI मात्रक और सूत्र"]:hover {
-            background-color: #ff9999;
+        .skip-btn:hover {
+            background-color: #5a6268;
+            transform: translateY(-3px);
+        }
+        .leaderboard-btn {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+            margin-top: 10px;
+        }
+        .leaderboard-btn:hover {
+            background-color: #e0a800;
         }
 
-        /* --- क्विज़ स्क्रीन (Quiz Screen) स्टाइलिंग --- */
+
+        /* --- क्विज़ स्क्रीन स्टाइलिंग --- */
         #quiz-screen {
             text-align: left;
+            padding: 10px 0;
         }
         
         .status-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 10px;
+            margin-bottom: 30px;
+            padding: 15px 20px;
             background: #e9ecef;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 600;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-        
-        #timer-box {
-            background-color: #dc3545;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
+        .status-header span {
             font-size: 1.1em;
-            transition: background-color 0.3s;
+            color: var(--text-color);
+        }
+        /* लाइफलाइन बटन को स्टेटस हेडर के अंदर स्टाइल करें */
+        #lifeline-btn {
+            width: auto;
+            min-width: 100px;
+            padding: 8px 15px;
+            font-size: 1em;
+            margin: 0;
+            box-shadow: none;
+            flex-grow: 1; 
+        }
+        #pause-resume-btn {
+            width: auto;
+            min-width: 100px;
+            padding: 8px 15px;
+            font-size: 1em;
+            margin: 0;
+            box-shadow: none;
+            background-color: #ff9800;
+            flex-grow: 1;
         }
 
-        #question-text {
-            font-size: 1.3em;
-            margin-bottom: 25px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
 
+        /* --- ऑप्शन लिस्ट और आइटम स्टाइलिंग --- */
         .options-list {
             list-style: none;
             padding: 0;
+            display: grid;
+            gap: 15px;
         }
 
         .option-item {
-            margin-bottom: 10px;
-            background: #f1f3f5;
-            padding: 15px;
-            border-radius: 6px;
-            border: 2px solid #ddd;
+            background: var(--bg-light);
+            padding: 18px 25px;
+            border-radius: 8px;
+            border: 2px solid #ced4da;
             cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s, opacity 0.5s; 
+            text-align: left;
+            font-size: 1.1em;
         }
-
-        .option-item:hover {
-            background-color: #e6f0ff;
-            border-color: #007bff;
+        .option-item:hover:not(.correct):not(.incorrect):not(.removed-5050) {
+            background-color: #e9ecef;
+            border-color: var(--primary-color);
+        }
+        
+        /* 50:50 द्वारा हटाए गए विकल्प */
+        .option-item.removed-5050 {
+            opacity: 0.3 !important;
+            pointer-events: none !important;
+            cursor: not-allowed;
+            background-color: #f8f9fa;
+            border-color: #ced4da;
         }
 
         /* सही/गलत उत्तर प्रतिक्रिया */
         .option-item.correct {
             background-color: #d4edda;
-            border-color: #28a745;
-            font-weight: bold;
+            border-color: var(--secondary-color);
+            font-weight: 700;
+            animation: pulseCorrect 0.5s ease-out;
             pointer-events: none !important;
         }
-
         .option-item.incorrect {
-            background-color: #f8d7da;
-            border-color: #dc3545;
+            background-color: #f8d7da; 
+            border-color: var(--alert-color);
+            font-weight: 700;
+            animation: shake 0.5s ease-out;
             pointer-events: none !important;
         }
         
-        /* परिणाम स्टाइलिंग */
-        #results {
-            text-align: center;
-            font-size: 1.4em;
-            margin-top: 20px;
-            padding: 30px;
-            background: #e9ecef;
-            border-radius: 8px;
-        }
-
-        #score-display {
-            font-size: 2.5em;
-            color: #007bff;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        /* बटन समूह (परिणाम स्क्रीन) */
-        .result-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-            align-items: center;
-        }
-        
-        .result-buttons .mode-button {
-            width: 80%; /* परिणाम स्क्रीन पर बटन की चौड़ाई */
-            font-size: 1.3em;
-        }
-
-        /* फुटर स्टाइलिंग */
-        .footer {
-            margin-top: 30px;
-            padding: 10px;
-            color: #777;
-            font-size: 0.9em;
-            text-align: center;
+        /* --- अन्य CSS स्टाइल्स (संक्षेप में) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.8); z-index: 1000; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease-out; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); max-width: 90%; width: 400px; text-align: center; max-height: 90vh; overflow-y: auto; transform: translateY(-20px); animation: slideIn 0.3s forwards; }
+        .modal-content.large { width: 850px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { to { transform: translateY(0); } }
+        @keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.01); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+        .menu-screen { display: flex; flex-direction: column; gap: 15px; align-items: center; padding: 20px; }
+        .chapters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 10px; margin-top: 20px; }
+        .chapter-box { background-color: var(--bg-light); padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; border-left: 5px solid var(--primary-color); text-align: left; }
+        .chapter-box:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+        .chapter-box h3 { margin: 0 0 5px 0; font-size: 1.2em; color: var(--primary-color); font-weight: 600; }
+        .chapter-box p { margin: 0; font-size: 0.9em; color: #6c757d; }
+        .chapter-box[data-chapter-code="SI मात्रक और सूत्र"] { border-left: 5px solid var(--warning-color); }
+        #question-text { font-size: 1.5em; margin-bottom: 35px; font-weight: 600; color: var(--text-color); }
+        #timer-box { background-color: var(--alert-color); color: white; padding: 10px 18px; border-radius: 8px; font-size: 1em; min-width: 120px; text-align: center; }
+        #results { margin-top: 30px; padding: 30px; background: var(--bg-light); border-radius: 15px; border: 1px solid #dee2e6; }
+        #score-display { font-size: 3em; color: var(--secondary-color); font-weight: 700; margin: 10px 0 20px 0; }
+        #results p strong { color: var(--primary-color); font-weight: 700; }
+        #leaderboard-modal h2 { color: var(--primary-color); border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+        .leaderboard-filters { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        #leaderboard-class-filter, #leaderboard-chapter-filter { padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex-grow: 1; }
+        #leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); border-radius: 10px; overflow: hidden; }
+        #leaderboard-table thead { background-color: var(--primary-color); color: white; }
+        #leaderboard-table th, #leaderboard-table td { padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        #leaderboard-table tr:nth-child(even) { background-color: #f3f3f3; }
+        .rank-1 { background-color: var(--warning-color) !important; color: var(--text-color); }
+        .rank-2 { background-color: #ced4da !important; }
+        .rank-3 { background-color: #e9ecef !important; }
+        .confetti { position: fixed; width: 8px; height: 8px; border-radius: 50%; top: -10px; opacity: 0; pointer-events: none; z-index: 10000; }
+        .footer { margin-top: 30px; padding: 15px; color: #777; font-size: 0.8em; text-align: center; width: 100%; }
+        @media (max-width: 768px) {
+            .status-header { flex-direction: column; align-items: stretch; }
+            .status-header span, #timer-box, #pause-resume-btn, #lifeline-btn { width: 100%; text-align: center; margin-top: 5px; }
         }
     </style>
 </head>
 <body>
 
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p>क्विज़ डेटा लोड हो रहा है...</p>
+    </div>
+
+    <div id="name-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="color: var(--primary-color); margin-top: 0;">क्विज़ में आपका स्वागत है!</h2>
+            <p>कृपया अपना नाम दर्ज करें:</p>
+            <input type="text" id="user-name-input" placeholder="आपका नाम" style="width: 90%; padding: 12px; margin: 15px 0 20px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 1.1em; box-sizing: border-box;">
+            
+            <button id="start-quiz-with-name-btn" class="mode-button action-btn" style="width: 100%;">क्विज़ शुरू करें</button>
+            <button id="skip-name-btn" class="mode-button skip-btn" style="width: 100%;">नाम के बिना जारी रखें (Skip)</button>
+        </div>
+    </div>
+
+    <div id="leaderboard-modal" class="modal-overlay">
+        <div class="modal-content large">
+            <h2 style="color: var(--primary-color); margin-top: 0;">🏆 क्विज़ लीडरबोर्ड</h2>
+            <div class="leaderboard-filters">
+                <select id="leaderboard-class-filter">
+                    <option value="all">सभी कक्षाएँ</option>
+                    <option value="9">कक्षा 9</option>
+                    <option value="10">कक्षा 10</option>
+                    <option value="special">विशेष</option>
+                </select>
+                <select id="leaderboard-chapter-filter">
+                    <option value="all">सभी अध्याय/मोड</option>
+                </select>
+            </div>
+            
+            <p id="leaderboard-status" style="color: var(--alert-color); display: none;">कोई परिणाम उपलब्ध नहीं।</p>
+            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px;">
+                <table id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>रैंक</th>
+                            <th>नाम</th>
+                            <th>क्लास</th>
+                            <th>स्कोर</th>
+                            <th>समय (से.)</th>
+                            <th>मोड/अध्याय</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                    </tbody>
+                </table>
+            </div>
+
+            <button id="close-leaderboard-btn" class="mode-button skip-btn" style="width: 50%; min-width: 150px; margin-top: 20px;">बंद करें</button>
+        </div>
+    </div>
+
+
     <div class="container">
         <h1>📚 विज्ञान क्विज़ - कक्षा 9 & 10</h1>
         
-        <div id="class-selection-menu" class="menu-screen">
+        <div id="class-selection-menu" class="menu-screen" style="display:none;">
             <p style="font-size: 1.1em; color: #555;">क्विज़ शुरू करने के लिए कक्षा चुनें:</p>
-            <button id="class-9-btn" class="mode-button class-btn" data-class="9">कक्षा 9</button>
-            <button id="class-10-btn" class="mode-button class-btn" data-class="10">कक्षा 10</button>
+            <button id="class-9-btn" class="mode-button main-btn" data-class="9">कक्षा 9</button>
+            <button id="class-10-btn" class="mode-button main-btn" data-class="10">कक्षा 10</button>
+            <button id="show-leaderboard-btn" class="mode-button leaderboard-btn">🏆 लीडरबोर्ड देखें</button> 
         </div>
 
         <div id="mode-selection-menu" class="menu-screen" style="display:none;">
             <p style="font-size: 1.1em; color: #555;">क्विज़ मोड चुनें:</p>
-            <button id="chapter-wise-btn" class="mode-button" data-mode="chapter">अध्याय-वार क्विज़</button>
-            <button id="random-question-btn" class="mode-button" data-mode="random">यादृच्छिक 20 प्रश्न</button>
-            <button id="back-to-class-btn" class="mode-button" style="width: 50%; background-color: #6c757d;">वापस कक्षा चयन</button>
+            <button id="chapter-wise-btn" class="mode-button action-btn" data-mode="chapter">अध्याय-वार क्विज़</button>
+            <button id="random-question-btn" class="mode-button leaderboard-btn" data-mode="random">यादृच्छिक 20 प्रश्न</button>
+            <button id="back-to-class-btn" class="mode-button skip-btn" style="width: 50%; min-width: 150px; margin-top: 10px;">वापस कक्षा चयन</button>
         </div>
 
         <div id="chapter-selection" style="display:none;">
-            <h2 id="chapter-selection-title" style="font-size: 1.5em; color: #007bff;"></h2>
+            <h2 id="chapter-selection-title" style="font-size: 1.8em; color: var(--primary-color);"></h2>
             <div id="chapters-grid" class="chapters-grid">
-                </div>
-            <button id="back-to-mode-btn" class="mode-button" style="width: 50%; margin-top: 20px; background-color: #6c757d;">वापस मोड चयन</button>
+            </div>
+            <button id="back-to-mode-btn" class="mode-button skip-btn" style="width: 50%; min-width: 150px; margin-top: 20px;">वापस मोड चयन</button>
         </div>
 
 
@@ -270,192 +351,30 @@
                 <span id="quiz-mode-display"></span>
                 <span>प्रश्न: <span id="current-question-display"></span> / <span id="total-questions-display"></span></span>
                 <div id="timer-box">⏰ 20 सेकंड</div>
+                <button id="pause-resume-btn">⏸️ रोकें</button>
+                <button id="lifeline-btn" class="action-btn" style="min-width: 120px; font-size: 1em;">50:50 (<span id="lifeline-count">2</span>)</button>
             </div>
             
             <p id="question-text"></p>
 
             <ul id="options-container" class="options-list">
-                </ul>
-
-            <div id="quiz-controls" style="text-align: center; margin-top: 25px;">
-                <button id="quiz-restart-button" class="mode-button" style="width: 50%; background-color: #ff6f61; display: none;">क्विज़ पुनरारंभ करें</button>
-            </div>
+            </ul>
         </div>
 
         <div id="result-screen" style="display:none;">
             <h2>क्विज़ समाप्त! 🎉</h2>
             <div id="results">
-                <p>आपका अंतिम स्कोर है:</p>
-                <div id="score-display"></div>
             </div>
-            <div class="result-buttons">
-                <button id="restart-current-mode-button" class="mode-button" style="background-color: #ff6f61;">पुनरारंभ करें (नया सेट)</button>
-                
-                <button id="back-to-main-menu-button" class="mode-button" style="background-color: #6c757d;">मुख्य मेनू पर वापस जाएं</button>
-            </div>
+            <button id="restart-button" class="mode-button action-btn" style="width: 50%; min-width: 200px; margin-top: 20px;">मुख्य मेनू पर वापस जाएं</button>
         </div>
 
     </div>
 
     <div class="footer">
-        Made with ❤️ by Akash Chaudhary
+        Made with ❤️ by Akash Chaudhary | Modern UI by Gemini
     </div>
 
     <script>
-        // --- 1. क्विज़ डेटा (200 प्रश्न प्रति कक्षा + 37 स्पेशल प्रश्न) ---
-        const questions_data = {
-            // --- कक्षा 9 के 200 प्रश्न ---
-            '9': [
-                { id: 1, question: "पदार्थ की किस अवस्था में कणों के बीच आकर्षण बल सबसे अधिक होता है?", options: ["ठोस", "द्रव", "गैस", "प्लाज्मा"], answer: "ठोस", chapter: "पदार्थ" },
-                { id: 2, question: "शुष्क बर्फ (Dry Ice) किसे कहते हैं?", options: ["ठोस जल", "ठोस कार्बन डाइऑक्साइड", "ठोस नाइट्रोजन", "ठोस अमोनिया"], answer: "ठोस कार्बन डाइऑक्साइड", chapter: "पदार्थ" },
-                { id: 3, question: "जल का क्वथनांक (Boiling Point) केल्विन पैमाने पर कितना होता है?", options: ["100 K", "273 K", "373 K", "0 K"], answer: "373 K", chapter: "पदार्थ" },
-                { id: 4, question: "कोलाइडल विलयन द्वारा प्रकाश की किरण को फैलाने की घटना कहलाती है:", options: ["अपवर्तन", "परावर्तन", "टिंडल प्रभाव", "ब्राउनी गति"], answer: "टिंडल प्रभाव", chapter: "शुद्ध पदार्थ" },
-                { id: 5, question: "रासायनिक परिवर्तन का उदाहरण है:", options: ["जल का जमना", "मोमबत्ती का जलना", "कांच का टूटना", "चीनी का पानी में घुलना"], answer: "मोमबत्ती का जलना", chapter: "शुद्ध पदार्थ" },
-                { id: 6, question: "जल (H₂O) में हाइड्रोजन और ऑक्सीजन के द्रव्यमान का अनुपात क्या होता है?", options: ["1:8", "8:1", "2:1", "1:2"], answer: "1:8", chapter: "परमाणु एवं अणु" },
-                { id: 7, question: "परमाणु संख्या (Atomic Number) किसके बराबर होती है?", options: ["न्यूट्रॉन की संख्या", "प्रोटॉन की संख्या", "न्यूट्रॉन और प्रोटॉन की संख्या का योग", "द्रव्यमान संख्या"], answer: "प्रोटॉन की संख्या", chapter: "परमाणु संरचना" },
-                { id: 8, question: "समस्थानिकों (Isotopes) में क्या समान होता है?", options: ["द्रव्यमान संख्या", "न्यूट्रॉन की संख्या", "परमाणु संख्या", "संयोजकता"], answer: "परमाणु संख्या", chapter: "परमाणु संरचना" },
-                { id: 9, question: "कोशिका की 'आत्मघाती थैली' (Suicidal Bag) किसे कहा जाता है?", options: ["माइटोकॉन्ड्रिया", "लाइसोसोम", "राइबोसोम", "केन्द्रक"], answer: "लाइसोसोम", chapter: "कोशिका" },
-                { id: 10, question: "कोशिका का 'ऊर्जा गृह' (Powerhouse) किसे कहते हैं?", options: ["राइबोसोम", "केन्द्रक", "माइटोकॉन्ड्रिया", "गॉल्जी उपकरण"], answer: "माइटोकॉन्ड्रिया", chapter: "कोशिका" },
-                { id: 11, question: "पौधों में जल और खनिजों का परिवहन कौन-सा ऊतक करता है?", options: ["फ्लोएम", "पैरेन्काइमा", "जाइलम", "स्क्लेरेन्काइमा"], answer: "जाइलम", chapter: "ऊतक" },
-                { id: 12, question: "हड्डी (Bone) और रक्त (Blood) किसके उदाहरण हैं?", options: ["उपकला ऊतक", "पेशी ऊतक", "तंत्रिका ऊतक", "संयोजी ऊतक"], answer: "संयोजी ऊतक", chapter: "ऊतक" },
-                { id: 13, question: "पाँच जगत वर्गीकरण (Five Kingdom Classification) किसने दिया?", options: ["लिनियस", "व्हिटेकर", "हेकेल", "कोप्लेंड"], answer: "व्हिटेकर", chapter: "विविधता" },
-                { id: 14, question: "मछलियों में श्वसन किसके द्वारा होता है?", options: ["फेफड़े", "त्वचा", "गलफड़े (Gills)", "वायुकोष्ठिका"], answer: "गलफड़े (Gills)", chapter: "विविधता" },
-                { id: 15, question: "त्वरण (Acceleration) का SI मात्रक क्या है?", options: ["m/s", "m/s²", "N", "kg m/s"], answer: "m/s²", chapter: "गति" },
-                { id: 16, question: "वेग-समय ग्राफ का क्षेत्रफल क्या दर्शाता है?", options: ["त्वरण", "दूरी/विस्थापन", "चाल", "संवेग"], answer: "दूरी/विस्थापन", chapter: "गति" },
-                { id: 17, question: "गति का पहला नियम (First Law of Motion) किस अवधारणा से संबंधित है?", options: ["बल", "संवेग", "त्वरण", "जड़त्व"], answer: "जड़त्व", chapter: "बल और नियम" },
-                { id: 18, question: "संवेग (Momentum) का SI मात्रक क्या है?", options: ["N s", "N m", "kg m/s", "J s"], answer: "kg m/s", chapter: " बल और नियम" },
-                { id: 19, question: "मुक्त पतन (Free Fall) के दौरान किसी वस्तु का त्वरण क्या होता है?", options: ["शून्य", "गुरुत्वीय त्वरण (g)", "बढ़ता है", "घटता है"], answer: "गुरुत्वीय त्वरण (g)", chapter: "गुरुत्वाकर्षण" },
-                { id: 20, question: "गुरुत्वीय स्थिरांक (G) का SI मात्रक क्या है?", options: ["N m²/kg²", "N m/kg", "N/kg", "m/s²"], answer: "N m²/kg²", chapter: "गुरुत्वाकर्षण" },
-                { id: 21, question: "कार्य (Work) का SI मात्रक क्या है?", options: ["न्यूटन", "वॉट", "जूल", "पास्कल"], answer: "जूल", chapter: "कार्य और ऊर्जा" },
-                { id: 22, question: "गतिज ऊर्जा (Kinetic Energy) का सूत्र क्या है?", options: ["mgh", "½mv²", "P x t", "F x S"], answer: "½mv²", chapter: "कार्य और ऊर्जा" },
-                { id: 23, question: "ध्वनि किस माध्यम में गमन नहीं कर सकती है?", options: ["ठोस", "द्रव", "गैस", "निर्वात (Vacuum)"], answer: "निर्वात (Vacuum)", chapter: "ध्वनि" },
-                { id: 24, question: "मनुष्य की श्रवण सीमा (Hearing Range) क्या है?", options: ["20 Hz से 200 Hz", "20 Hz से 2000 Hz", "20 Hz से 20,000 Hz", "200 Hz से 2000 Hz"], answer: "20 Hz से 20,000 Hz", chapter: "ध्वनि" },
-                { id: 25, question: "गैर-संक्रामक रोग (Non-communicable Disease) का उदाहरण है:", options: ["तपेदिक (TB)", "मधुमेह (Diabetes)", "फ्लू", "टायफाइड"], answer: "मधुमेह (Diabetes)", chapter: "बीमार क्यों होते हैं" },
-                { id: 26, question: "पानी से फैलने वाला रोग कौन सा है?", options: ["सामान्य सर्दी", "एड्स", "हैजा", "मलेरिया"], answer: "हैजा", chapter: "बीमार क्यों होते हैं" },
-                { id: 27, question: "ओजोन परत (Ozone Layer) किस विकिरण से पृथ्वी की रक्षा करती है?", options: ["अवरक्त", "माइक्रोवेव", "पराबैंगनी (UV)", "रेडियो तरंगें"], answer: "पराबैंगनी (UV)", chapter: "प्राकृतिक संसाधन" },
-                { id: 28, question: "मृदा अपरदन (Soil Erosion) को रोकने में सबसे प्रभावी कारक क्या है?", options: ["तेज हवा", "वनों की कटाई", "अत्यधिक चराई", "वन लगाना"], answer: "वन लगाना", chapter: "प्राकृतिक संसाधन" },
-                // ... (कक्षा 9 के शेष 172 प्रश्न)
-                { id: 199, question: "वेग (Velocity) कैसी राशि है?", options: ["अदिश", "सदिश", "केवल धनात्मक", "केवल ऋणात्मक"], answer: "सदिश", chapter: "गति" },
-                { id: 200, question: "पौधों में लचीलेपन के लिए कौन-सा ऊतक जिम्मेदार होता है?", options: ["पैरेन्काइमा", "कॉलेन्काइमा", "स्क्लेरेन्काइमा", "जाइलम"], answer: "कॉलेन्काइमा", chapter: "ऊतक" },
-            ],
-
-            // --- कक्षा 10 के 200 प्रश्न ---
-            '10': [
-                { id: 1, question: "श्वसन किस प्रकार की रासायनिक अभिक्रिया है?", options: ["संयोजन", "वियोजन", "उष्माक्षेपी", "उष्माशोषी"], answer: "उष्माक्षेपी", chapter: "रासायनिक अभिक्रियाएं और समीकरण" },
-                { id: 2, question: "जल के विद्युत अपघटन से प्राप्त हाइड्रोजन और ऑक्सीजन गैसों का अनुपात (आयतन में) क्या है?", options: ["1:1", "2:1", "1:2", "3:1"], answer: "2:1", chapter: "रासायनिक अभिक्रियाएं और समीकरण" },
-                { id: 3, question: "नींबू के रस का pH मान कितना होता है?", options: ["7", "7 से अधिक", "7 से कम", "0"], answer: "7 से कम", chapter: "अम्ल, क्षारक और लवण" },
-                { id: 4, question: "विरंजक चूर्ण (Bleaching Powder) का रासायनिक सूत्र क्या है?", options: ["Ca(OH)₂", "CaOCl₂", "CaCO₃", "Na₂CO₃"], answer: "CaOCl₂", chapter: "अम्ल, क्षारक और लवण" },
-                { id: 5, question: "सबसे अधिक क्रियाशील धातु (Reactive Metal) कौन सी है?", options: ["सोना (Au)", "आयरन (Fe)", "सोडियम (Na)", "कॉपर (Cu)"], answer: "सोडियम (Na)", chapter: "धातु और अधातु" },
-                { id: 6, question: "अयस्क से धातु को हटाने की प्रक्रिया क्या कहलाती है?", options: ["भर्जन (Roasting)", "निस्तापन (Calcination)", "धातु कर्म (Metallurgy)", "गैलवेनाइजेशन"], answer: "धातु कर्म (Metallurgy)", chapter: "धातु और अधातु" },
-                { id: 7, question: "कार्बन के दो अपरूप कौन से हैं?", options: ["ऑक्सीजन और नाइट्रोजन", "ग्रेफाइट और हीरा", "जल और बर्फ", "नमक और चीनी"], answer: "ग्रेफाइट और हीरा", chapter: "कार्बन और उसके यौगिक" },
-                { id: 8, question: "एल्केन (Alkane) का सामान्य सूत्र क्या है?", options: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂", "CₙHₙ"], answer: "CₙH₂ₙ₊₂", chapter: "कार्बन और उसके यौगिक" },
-                { id: 9, question: "आधुनिक आवर्त सारणी (Modern Periodic Table) किस पर आधारित है?", options: ["परमाणु भार", "परमाणु आयतन", "परमाणु संख्या", "संयोजकता"], answer: "परमाणु संख्या", chapter: "तत्वों का आवर्त वर्गीकरण" },
-                { id: 10, question: "आधुनिक आवर्त सारणी में कितने समूह (Groups) हैं?", options: ["7", "18", "9", "10"], answer: "18", chapter: "तत्वों का आवर्त वर्गीकरण" },
-                { id: 11, question: "प्रकाश संश्लेषण (Photosynthesis) के लिए आवश्यक नहीं है:", options: ["सूर्य का प्रकाश", "जल", "ऑक्सीजन", "कार्बन डाइऑक्साइड"], answer: "ऑक्सीजन", chapter: "जैव प्रक्रम" },
-                { id: 12, question: "मनुष्य में रक्त छानने (फिल्टर करने) का कार्य कौन-सा अंग करता है?", options: ["हृदय", "फेफड़े", "वृक्क (Kidney)", "यकृत"], answer: "वृक्क (Kidney)", chapter: "जैव प्रक्रम" },
-                { id: 13, question: "तंत्रिका कोशिका (Neuron) का कार्य क्या है?", options: ["ऊर्जा प्रदान करना", "संदेशों का संवहन", "रक्त निर्माण", "भोजन का पाचन"], answer: "संदेशों का संवहन", chapter: "नियंत्रण एवं समन्वय" },
-                { id: 14, question: "मनुष्य में मास्टर ग्रंथि (Master Gland) किसे कहते हैं?", options: ["थायराइड", "एड्रिनल", "पीयूष ग्रंथि (Pituitary)", "अग्नाशय"], answer: "पीयूष ग्रंथि (Pituitary)", chapter: "नियंत्रण एवं समन्वय" },
-                { id: 15, question: "मेंडल (Mendel) ने आनुवंशिकता (Heredity) के प्रयोग के लिए किस पौधे का उपयोग किया?", options: ["गुलाब", "मटर", "सरसों", "गेहूँ"], answer: "मटर", chapter: "आनुवंशिकता एवं जैव विकास" },
-                { id: 16, question: "जीन (Gene) कहाँ पाए जाते हैं?", options: ["राइबोसोम", "कोशिका द्रव्य", "गुणसूत्र (Chromosome)", "माइटोकॉन्ड्रिया"], answer: "गुणसूत्र (Chromosome)", chapter: "आनुवंशिकता एवं जैव विकास" },
-                { id: 17, question: "प्रकाश के परावर्तन (Reflection) के कितने नियम हैं?", options: ["एक", "दो", "तीन", "चार"], answer: "दो", chapter: "प्रकाश - परावर्तन और अपवर्तन" },
-                { id: 18, question: "मानव नेत्र में प्रतिबिंब कहाँ बनता है?", options: ["कॉर्निया", "पुतली", "रेटिना", "आइरिस"], answer: "रेटिना", chapter: "मानव नेत्र तथा रंगबिरंगा संसार" },
-                { id: 19, question: "विद्युत धारा (Electric Current) का SI मात्रक क्या है?", options: ["वोल्ट", "ओम", "एम्पीयर", "कूलाम्ब"], answer: "एम्पीयर", chapter: "विद्युत" },
-                { id: 20, question: "विभवांतर (Potential Difference) को मापने के लिए किस उपकरण का उपयोग किया जाता है?", options: ["एमीटर", "गैल्वेनोमीटर", "वोल्टमीटर", "पॉवर मीटर"], answer: "वोल्टमीटर", chapter: "विद्युत" },
-                { id: 21, question: "फ्लेमिंग का वामहस्त नियम (Fleming's Left-Hand Rule) किसकी दिशा बताता है?", options: ["विद्युत धारा", "चुंबकीय क्षेत्र", "बल", "शक्ति"], answer: "बल", chapter: "विद्युत धारा के चुंबकीय प्रभाव" },
-                { id: 22, question: "चुंबकीय क्षेत्र रेखाएँ (Magnetic Field Lines) कहाँ से निकलती हैं?", options: ["दक्षिण ध्रुव से", "केंद्र से", "उत्तर ध्रुव से", "किसी भी दिशा से"], answer: "उत्तर ध्रुव से", chapter: "विद्युत धारा के चुंबकीय प्रभाव" },
-                { id: 23, question: "पारिस्थितिकी तंत्र (Ecosystem) में ऊर्जा का प्रवाह कैसा होता है?", options: ["द्विदिशीय", "चक्रीय", "एकदिशीय", "अनियमित"], answer: "एकदिशीय", chapter: "हमारा पर्यावरण" },
-                { id: 24, question: "ओजोन परत को नुकसान पहुँचाने वाला मुख्य रसायन कौन सा है?", options: ["कार्बन डाइऑक्साइड", "मीथेन", "क्लोरोफ्लोरोकार्बन (CFC)", "सल्फर डाइऑक्साइड"], answer: "क्लोरोफ्लोरोकार्बन (CFC)", chapter: "हमारा पर्यावरण" },
-                { id: 25, question: "कोयले और पेट्रोलियम को क्या कहा जाता है?", options: ["नवीकरणीय संसाधन", "समाप्त न होने वाले संसाधन", "जीवाश्म ईंधन", "बायोमास"], answer: "जीवाश्म ईंधन", chapter: "प्राकृतिक संसाधनों का प्रबंधन" },
-                { id: 26, question: "गंगा कार्य योजना (Ganga Action Plan) किस वर्ष शुरू की गई थी?", options: ["1976", "1986", "1996", "2006"], answer: "1986", chapter: "प्राकृतिक संसाधनों का प्रबंधन" },
-                // ... (कक्षा 10 के शेष 174 प्रश्न)
-                { id: 199, question: "अपवर्तन (Refraction) के कारण प्रकाश की किरण का मुड़ना किसके कारण होता है?", options: ["रंग में परिवर्तन", "आवृत्ति में परिवर्तन", "चाल में परिवर्तन", "तीव्रता में परिवर्तन"], answer: "चाल में परिवर्तन", chapter: "प्रकाश - परावर्तन और अपवर्तन" },
-                { id: 200, question: "पौधों में पानी के अवशोषण (Absorption) की दर को कौन बढ़ाता है?", options: ["कम तापमान", "उच्च आर्द्रता", "तेज हवा", "कम प्रकाश"], answer: "तेज हवा", chapter: "जैव प्रक्रम" },
-            ],
-            
-            // --- विशेष अध्याय: SI मात्रक और सूत्र (37 प्रश्न) ---
-            'special': [
-                { id: 1, question: "विद्युत आवेश (Electric Charge) का SI मात्रक क्या है?", options: ["एम्पीयर", "कूलाम्ब", "ओम", "वोल्ट"], answer: "कूलाम्ब", chapter: "SI मात्रक और सूत्र" },
-                { id: 2, question: "शक्ति (Power) का SI मात्रक क्या है?", options: ["जूल", "न्यूटन", "वॉट", "पास्कल"], answer: "वॉट", chapter: "SI मात्रक और सूत्र" },
-                { id: 3, question: "विभवांतर (Potential Difference) का SI मात्रक क्या है?", options: ["वोल्ट", "एम्पीयर", "ओम", "वॉट"], answer: "वोल्ट", chapter: "SI मात्रक और सूत्र" },
-                { id: 4, question: "विस्थापन (Displacement) का SI मात्रक क्या है?", options: ["मीटर/सेकंड", "किलोग्राम", "मीटर", "न्यूटन"], answer: "मीटर", chapter: "SI मात्रक और सूत्र" },
-                { id: 5, question: "संवेग (Momentum) का मात्रक क्या है?", options: ["न्यूटन", "किलोग्राम मीटर/सेकंड", "जूल", "वॉट"], answer: "किलोग्राम मीटर/सेकंड", chapter: "SI मात्रक और सूत्र" },
-                { id: 6, question: "चुंबकीय क्षेत्र (Magnetic Field) का SI मात्रक क्या है?", options: ["वेबर", "टेस्ला", "ओम", "हेनरी"], answer: "टेस्ला", chapter: "SI मात्रक और सूत्र" },
-                { id: 7, question: "कॉपर सल्फेट (Copper Sulphate) का रासायनिक सूत्र क्या है?", options: ["CuO", "CuCO₃", "Cu₂O", "CuSO₄"], answer: "CuSO₄", chapter: "SI मात्रक और सूत्र" },
-                { id: 8, question: "मीथेन (Methane) का रासायनिक सूत्र क्या है?", options: ["C₂H₆", "CH₄", "C₃H₈", "C₂H₄"], answer: "CH₄", chapter: "SI मात्रक और सूत्र" },
-                { id: 9, question: "कैल्शियम कार्बोनेट (Calcium Carbonate) का रासायनिक सूत्र क्या है?", options: ["CaOH", "Ca(OH)₂", "CaCO₃", "CaCl₂"], answer: "CaCO₃", chapter: "SI मात्रक और सूत्र" },
-                { id: 10, question: "पानी (Water) का घनत्व (Density) का SI मात्रक क्या है?", options: ["kg/m", "kg/m²", "kg/m³", "g/cm³"], answer: "kg/m³", chapter: "SI मात्रक और सूत्र" },
-                { id: 11, question: "pH का सूत्र क्या है?", options: ["-log[OH⁻]", "-log[H⁺]", "log[H⁺]", "1/log[H⁺]"], answer: "-log[H⁺]", chapter: "SI मात्रक और सूत्र" },
-                { id: 12, question: "ध्वनि की तीव्रता (Intensity) का मात्रक क्या है?", options: ["हर्ट्ज़", "डेसिबल (dB)", "मीटर", "न्यूटन"], answer: "डेसिबल (dB)", chapter: "SI मात्रक और सूत्र" },
-                // --- 25 नए प्रश्न (SI मात्रक) ---
-                { id: 13, question: "तापमान (Temperature) का SI मात्रक क्या है?", options: ["सेल्सियस", "फ़ारेनहाइट", "केल्विन", "जूल"], answer: "केल्विन", chapter: "SI मात्रक और सूत्र" },
-                { id: 14, question: "प्रतिरोध (Resistance) का SI मात्रक क्या है?", options: ["एम्पीयर", "वोल्ट", "ओम", "वॉट"], answer: "ओम", chapter: "SI मात्रक और सूत्र" },
-                { id: 15, question: "आवृत्ति (Frequency) का SI मात्रक क्या है?", options: ["सेकंड", "हर्ट्ज़ (Hz)", "रेडियन", "मीटर"], answer: "हर्ट्ज़ (Hz)", chapter: "SI मात्रक और सूत्र" },
-                { id: 16, question: "बल (Force) का SI मात्रक क्या है?", options: ["किलोग्राम", "पास्कल", "न्यूटन", "जूल"], answer: "न्यूटन", chapter: "SI मात्रक और सूत्र" },
-                { id: 17, question: "ऊर्जा (Energy) का SI मात्रक क्या है?", options: ["वॉट", "न्यूटन", "जूल", "वोल्ट"], answer: "जूल", chapter: "SI मात्रक और सूत्र" },
-                { id: 18, question: "दबाव (Pressure) का SI मात्रक क्या है?", options: ["न्यूटन", "पास्कल", "किलोग्राम", "वॉट"], answer: "पास्कल", chapter: "SI मात्रक और सूत्र" },
-                { id: 19, question: "प्रेरकत्व (Inductance) का SI मात्रक क्या है?", options: ["टेस्ला", "वेबर", "हेनरी", "फैराड"], answer: "हेनरी", chapter: "SI मात्रक और सूत्र" },
-                { id: 20, question: "ज्योति तीव्रता (Luminous Intensity) का SI मात्रक क्या है?", options: ["ल्यूमेन", "कैंडेला", "मोल", "एम्पीयर"], answer: "कैंडेला", chapter: "SI मात्रक और सूत्र" },
-                { id: 21, question: "लम्बाई (Length) का SI मात्रक क्या है?", options: ["किलोमीटर", "सेंटीमीटर", "मीटर", "माइक्रोमीटर"], answer: "मीटर", chapter: "SI मात्रक और सूत्र" },
-                { id: 22, question: "विद्युत धारिता (Capacitance) का SI मात्रक क्या है?", options: ["ओम", "वोल्ट", "फैराड", "एम्पीयर"], answer: "फैराड", chapter: "SI मात्रक और सूत्र" },
-                { id: 23, question: "चुंबकीय फ्लक्स (Magnetic Flux) का SI मात्रक क्या है?", options: ["टेस्ला", "हेनरी", "वेबर", "कूलाम्ब"], answer: "वेबर", chapter: "SI मात्रक और सूत्र" },
-                // --- 14 नए प्रश्न (रासायनिक सूत्र) ---
-                { id: 24, question: "साधारण नमक (Common Salt) का रासायनिक सूत्र क्या है?", options: ["KCl", "Na₂SO₄", "NaCl", "NaOH"], answer: "NaCl", chapter: "SI मात्रक और सूत्र" },
-                { id: 25, question: "बेकिंग सोडा (Baking Soda) का रासायनिक सूत्र क्या है?", options: ["Na₂CO₃", "NaHCO₃", "CaCO₃", "KOH"], answer: "NaHCO₃", chapter: "SI मात्रक और सूत्र" },
-                { id: 26, question: "धोने का सोडा (Washing Soda) का रासायनिक सूत्र क्या है?", options: ["Na₂CO₃.10H₂O", "NaHCO₃", "Na₂SO₄", "NaNO₃"], answer: "Na₂CO₃.10H₂O", chapter: "SI मात्रक और सूत्र" },
-                { id: 27, question: "प्लास्टर ऑफ पेरिस (Plaster of Paris) का सूत्र क्या है?", options: ["CaSO₄.2H₂O", "CaSO₄.½H₂O", "MgSO₄", "FeSO₄"], answer: "CaSO₄.½H₂O", chapter: "SI मात्रक और सूत्र" },
-                { id: 28, question: "जिप्सम (Gypsum) का रासायनिक सूत्र क्या है?", options: ["CaSO₄.½H₂O", "CaCO₃", "CaSO₄.2H₂O", "CaO"], answer: "CaSO₄.2H₂O", chapter: "SI मात्रक और सूत्र" },
-                { id: 29, question: "बुझा हुआ चूना (Slaked Lime) का रासायनिक सूत्र क्या है?", options: ["CaCO₃", "CaO", "Ca(OH)₂", "CaCl₂"], answer: "Ca(OH)₂", chapter: "SI मात्रक और सूत्र" },
-                { id: 30, question: "बिना बुझा चूना (Quick Lime) का रासायनिक सूत्र क्या है?", options: ["CaCO₃", "CaO", "Ca(OH)₂", "CaCl₂"], answer: "CaO", chapter: "SI मात्रक और सूत्र" },
-                { id: 31, question: "सल्फ्यूरिक अम्ल (Sulphuric Acid) का सूत्र क्या है?", options: ["HCl", "HNO₃", "H₂SO₄", "H₂CO₃"], answer: "H₂SO₄", chapter: "SI मात्रक और सूत्र" },
-                { id: 32, question: "नाइट्रिक अम्ल (Nitric Acid) का सूत्र क्या है?", options: ["H₂SO₄", "HNO₃", "H₂O", "NH₃"], answer: "HNO₃", chapter: "SI मात्रक और सूत्र" },
-                { id: 33, question: "पानी (Water) का रासायनिक सूत्र क्या है?", options: ["H₂O₂", "H₂S", "H₂O", "OH"], answer: "H₂O", chapter: "SI मात्रक और सूत्र" },
-                { id: 34, question: "ग्लूकोज (Glucose) का रासायनिक सूत्र क्या है?", options: ["C₂H₅OH", "C₆H₁₂O₆", "CH₃COOH", "C₁₂H₂₂O₁₁"], answer: "C₆H₁₂O₆", chapter: "SI मात्रक और सूत्र" },
-                { id: 35, question: "चीनी (Sugar/Sucrose) का रासायनिक सूत्र क्या है?", options: ["C₆H₁₂O₆", "C₁₂H₂₂O₁₁", "CH₄", "C₃H₈"], answer: "C₁₂H₂₂O₁₁", chapter: "SI मात्रक और सूत्र" },
-                { id: 36, question: "पोटेशियम क्लोराइड (Potassium Chloride) का रासायनिक सूत्र क्या है?", options: ["NaCl", "KCl", "CaCl₂", "KOH"], answer: "KCl", chapter: "SI मात्रक और सूत्र" },
-                { id: 37, question: "हाइड्रोक्लोरिक अम्ल (Hydrochloric Acid) का सूत्र क्या है?", options: ["H₂SO₄", "HCl", "HNO₃", "H₂O"], answer: "HCl", chapter: "SI मात्रक और सूत्र" },
-            ]
-        };
-        
-        // अध्याय मैपिंग
-        const class9_chapters = [
-            { code: "पदार्थ", name: "अध्याय 1: हमारे आस-पास के पदार्थ", sub: "रसायन विज्ञान" },
-            { code: "शुद्ध पदार्थ", name: "अध्याय 2: क्या हमारे आस-पास के पदार्थ शुद्ध हैं", sub: "रसायन विज्ञान" },
-            { code: "परमाणु एवं अणु", name: "अध्याय 3: परमाणु एवं अणु", sub: "रसायन विज्ञान" },
-            { code: "परमाणु संरचना", name: "अध्याय 4: परमाणु की संरचना", sub: "रसायन विज्ञान" },
-            { code: "कोशिका", name: "अध्याय 5: जीवन की मौलिक इकाई", sub: "जीव विज्ञान" },
-            { code: "ऊतक", name: "अध्याय 6: ऊतक", sub: "जीव विज्ञान" },
-            { code: "विविधता", name: "अध्याय 7: जीवों में विविधता", sub: "जीव विज्ञान" },
-            { code: "गति", name: "अध्याय 8: गति", sub: "भौतिक विज्ञान" },
-            { code: "बल और नियम", name: "अध्याय 9: बल तथा गति के नियम", sub: "भौतिक विज्ञान" },
-            { code: "गुरुत्वाकर्षण", name: "अध्याय 10: गुरुत्वाकर्षण", sub: "भौतिक विज्ञान" },
-            { code: "कार्य और ऊर्जा", name: "अध्याय 11: कार्य तथा ऊर्जा", sub: "भौतिक विज्ञान" },
-            { code: "ध्वनि", name: "अध्याय 12: ध्वनि", sub: "भौतिक विज्ञान" },
-            { code: "बीमार क्यों होते हैं", name: "अध्याय 13: हम बीमार क्यों होते हैं", sub: "जीव विज्ञान" },
-            { code: "प्राकृतिक संसाधन", name: "अध्याय 14: प्राकृतिक संसाधन", sub: "पर्यावरण" },
-        ];
-
-        const class10_chapters = [
-            { code: "रासायनिक अभिक्रियाएं और समीकरण", name: "अध्याय 1: रासायनिक अभिक्रियाएं और समीकरण", sub: "रसायन विज्ञान" },
-            { code: "अम्ल, क्षारक और लवण", name: "अध्याय 2: अम्ल, क्षारक और लवण", sub: "रसायन विज्ञान" },
-            { code: "धातु और अधातु", name: "अध्याय 3: धातु और अधातु", sub: "रसायन विज्ञान" },
-            { code: "कार्बन और उसके यौगिक", name: "अध्याय 4: कार्बन और उसके यौगिक", sub: "रसायन विज्ञान" },
-            { code: "तत्वों का आवर्त वर्गीकरण", name: "अध्याय 5: तत्वों का आवर्त वर्गीकरण", sub: "रसायन विज्ञान" },
-            { code: "जैव प्रक्रम", name: "अध्याय 6: जैव प्रक्रम", sub: "जीव विज्ञान" },
-            { code: "नियंत्रण एवं समन्वय", name: "अध्याय 7: नियंत्रण एवं समन्वय", sub: "जीव विज्ञान" },
-            { code: "आनुवंशिकता एवं जैव विकास", name: "अध्याय 8: आनुवंशिकता एवं जैव विकास", sub: "जीव विज्ञान" },
-            { code: "प्रकाश - परावर्तन और अपवर्तन", name: "अध्याय 9: प्रकाश - परावर्तन और अपवर्तन", sub: "भौतिक विज्ञान" },
-            { code: "मानव नेत्र तथा रंगबिरंगा संसार", name: "अध्याय 10: मानव नेत्र तथा रंगबिरंगा संसार", sub: "भौतिक विज्ञान" },
-            { code: "विद्युत", name: "अध्याय 11: विद्युत", sub: "भौतिक विज्ञान" },
-            { code: "विद्युत धारा के चुंबकीय प्रभाव", name: "अध्याय 12: विद्युत धारा के चुंबकीय प्रभाव", sub: "भौतिक विज्ञान" },
-            { code: "हमारा पर्यावरण", name: "अध्याय 13: हमारा पर्यावरण", sub: "पर्यावरण" },
-            { code: "प्राकृतिक संसाधनों का प्रबंधन", name: "अध्याय 14: प्राकृतिक संसाधनों का प्रबंधन", sub: "पर्यावरण" },
-        ];
-        
-        const special_chapter = { code: "SI मात्रक और सूत्र", name: "विशेष: सभी SI मात्रक और रासायनिक सूत्र", sub: "सामान्य विज्ञान" };
-
-
-        // --- 2. क्विज़ लॉजिक (JavaScript) ---
-
         const MAX_QUESTIONS_PER_ROUND = 20;
         const TIME_LIMIT = 20; // seconds
 
@@ -465,8 +384,28 @@
         let questionAnswered = false;
         let timerInterval;
         let quizQuestions = [];
-        let currentQuizMode = { type: null, value: null, name: null }; // वर्तमान मोड/अध्याय को ट्रैक करने के लिए
+        let userName = "अज्ञात उपयोगकर्ता";
+        let quizStartTime = 0; 
+        let isPaused = false; 
+        let timeRemaining = TIME_LIMIT; 
+        let leaderboardData = JSON.parse(localStorage.getItem('quizLeaderboard')) || []; 
+        let currentQuizChapterName = 'यादृच्छिक'; 
+        let lifelineCount = 2; // 50:50 लाइफलाइन की गिनती
+        
+        // ऑडियो ऑब्जेक्ट्स: यूजर को 'audio/' फोल्डर में ये फाइलें प्रदान करनी होंगी
+        const correctAudio = new Audio('audio/correct.mp3'); 
+        const incorrectAudio = new Audio('audio/incorrect.mp3'); 
 
+        // --- डेटा वेरिएबल्स ---
+        let class9_data = {}; 
+        let class10_data = {};
+        let special_data = {};
+        let questions_data = {};
+        let class9_chapters = [];
+        let class10_chapters = [];
+        let special_chapter = {};
+
+        // DOM तत्व
         const classSelectionMenu = document.getElementById('class-selection-menu');
         const modeSelectionMenu = document.getElementById('mode-selection-menu');
         const chapterSelection = document.getElementById('chapter-selection');
@@ -475,49 +414,106 @@
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const timerBox = document.getElementById('timer-box');
-        const scoreDisplay = document.getElementById('score-display');
         const currentQuestionDisplay = document.getElementById('current-question-display');
         const totalQuestionsDisplay = document.getElementById('total-questions-display');
         const quizModeDisplay = document.getElementById('quiz-mode-display');
         const chaptersGrid = document.getElementById('chapters-grid');
         const chapterSelectionTitle = document.getElementById('chapter-selection-title');
+        const nameModal = document.getElementById('name-modal');
+        const userNameInput = document.getElementById('user-name-input');
+        const leaderboardModal = document.getElementById('leaderboard-modal');
+        const leaderboardClassFilter = document.getElementById('leaderboard-class-filter');
+        const leaderboardChapterFilter = document.getElementById('leaderboard-chapter-filter');
+        const leaderboardBody = document.getElementById('leaderboard-body');
+        const leaderboardStatus = document.getElementById('leaderboard-status');
+        const resultsDiv = document.getElementById('results');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const lifelineBtn = document.getElementById('lifeline-btn');
+        const lifelineCountSpan = document.getElementById('lifeline-count');
+
+
+        // --- A. डेटा लोडिंग फंक्शन ---
+        async function loadQuizData() {
+            try {
+                // सभी JSON फ़ाइलों को एक साथ लोड करें
+                const [data9, data10, dataSpecial] = await Promise.all([
+                    fetch('data/class9.json').then(res => res.json()),
+                    fetch('data/class10.json').then(res => res.json()),
+                    fetch('data/special.json').then(res => res.json())
+                ]);
+
+                class9_data = data9;
+                class10_data = data10;
+                special_data = dataSpecial;
+
+                questions_data = {
+                    '9': class9_data.questions,
+                    '10': class10_data.questions,
+                    'special': special_data.questions
+                };
+                class9_chapters = class9_data.chapters;
+                class10_chapters = class10_data.chapters;
+                special_chapter = special_data.chapter;
+                
+                loadingOverlay.style.display = 'none'; 
+                initializeQuiz(); 
+            } catch (error) {
+                console.error("क्विज़ डेटा लोड करने में त्रुटि हुई:", error);
+                loadingOverlay.innerHTML = `<p style="color: var(--alert-color);">डेटा लोड करने में त्रुटि। सुनिश्चित करें कि 'data/' फ़ोल्डर और JSON फ़ाइलें मौजूद हैं।</p>`;
+            }
+        }
         
-        // परिणाम स्क्रीन के नए बटन
-        const restartCurrentModeButton = document.getElementById('restart-current-mode-button');
-        const backToMainMenuButton = document.getElementById('back-to-main-menu-button');
+        // --- B. इवेंट लिसनर्स और नेविगेशन ---
 
+        function attachEventListeners() {
+            document.getElementById('start-quiz-with-name-btn').addEventListener('click', handleNameInput);
+            document.getElementById('skip-name-btn').addEventListener('click', handleSkipName);
+            document.getElementById('class-9-btn').addEventListener('click', () => selectClass('9'));
+            document.getElementById('class-10-btn').addEventListener('click', () => selectClass('10'));
+            document.getElementById('chapter-wise-btn').addEventListener('click', showChapterSelection);
+            document.getElementById('random-question-btn').addEventListener('click', startRandomQuiz);
+            document.getElementById('back-to-class-btn').addEventListener('click', showClassSelection);
+            document.getElementById('back-to-mode-btn').addEventListener('click', showModeSelection);
+            document.getElementById('restart-button').addEventListener('click', showClassSelection); 
+            document.getElementById('show-leaderboard-btn').addEventListener('click', showLeaderboardModal);
+            document.getElementById('close-leaderboard-btn').addEventListener('click', () => leaderboardModal.style.display = 'none');
+            leaderboardClassFilter.addEventListener('change', renderLeaderboard);
+            leaderboardChapterFilter.addEventListener('change', renderLeaderboard);
+            document.getElementById('pause-resume-btn').addEventListener('click', togglePause);
+            lifelineBtn.addEventListener('click', use5050Lifeline); // लाइफलाइन इवेंट लिसनर
+        }
 
-        // इवेंट लिसनर्स: कक्षा चयन
-        document.getElementById('class-9-btn').addEventListener('click', () => selectClass('9'));
-        document.getElementById('class-10-btn').addEventListener('click', () => selectClass('10'));
-        
-        // इवेंट लिसनर्स: मोड चयन
-        document.getElementById('chapter-wise-btn').addEventListener('click', showChapterSelection);
-        document.getElementById('random-question-btn').addEventListener('click', startRandomQuiz);
+        function handleNameInput() {
+            const name = userNameInput.value.trim();
+            if (name) {
+                userName = name;
+                nameModal.style.display = 'none';
+                showClassSelection();
+            } else {
+                alert("कृपया अपना नाम दर्ज करें। यदि आप नाम नहीं देना चाहते हैं, तो 'नाम के बिना जारी रखें' पर क्लिक करें।");
+            }
+        }
 
-        // इवेंट लिसनर्स: नेविगेशन
-        document.getElementById('back-to-class-btn').addEventListener('click', showClassSelection);
-        document.getElementById('back-to-mode-btn').addEventListener('click', showModeSelection);
-        
-        // परिणाम स्क्रीन इवेंट लिसनर्स (अद्यतन)
-        backToMainMenuButton.addEventListener('click', showClassSelection); // मुख्य मेनू पर वापस जाएँ
-        restartCurrentModeButton.addEventListener('click', restartCurrentQuiz); // पुनरारंभ करें (नया शफल)
-
+        function handleSkipName() {
+            userName = "अज्ञात उपयोगकर्ता";
+            nameModal.style.display = 'none';
+            showClassSelection();
+        }
 
         function showClassSelection() {
+            [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen, leaderboardModal].forEach(el => el.style.display = 'none');
+            
+            populateLeaderboardChapterFilter('all');
+            leaderboardClassFilter.value = 'all';
+            leaderboardChapterFilter.value = 'all';
+
             classSelectionMenu.style.display = 'flex';
-            modeSelectionMenu.style.display = 'none';
-            chapterSelection.style.display = 'none';
-            quizScreen.style.display = 'none';
-            resultScreen.style.display = 'none';
             currentClass = null;
-            currentQuizMode = { type: null, value: null, name: null };
             clearInterval(timerInterval);
         }
 
         function selectClass(classNumber) {
             currentClass = classNumber;
-            currentQuizMode = { type: null, value: null, name: null }; // कक्षा बदलने पर मोड रीसेट करें
             showModeSelection();
         }
         
@@ -527,109 +523,74 @@
             chapterSelection.style.display = 'none';
         }
 
-
         function showChapterSelection() {
             modeSelectionMenu.style.display = 'none';
             chapterSelection.style.display = 'block';
-            
-            // शीर्षक सेट करें
             chapterSelectionTitle.textContent = `कक्षा ${currentClass} विज्ञान के अध्याय`;
-            
-            // अध्याय ग्रिड को साफ़ करें
             chaptersGrid.innerHTML = ''; 
 
-            // सही अध्याय सूची चुनें
             const current_chapters = currentClass === '9' ? class9_chapters : class10_chapters;
             
-            // सभी अध्याय जोड़ें
             current_chapters.forEach(chapter => {
                 const box = document.createElement('div');
                 box.classList.add('chapter-box');
                 box.setAttribute('data-chapter-code', chapter.code);
                 box.innerHTML = `<h3>${chapter.name}</h3><p>${chapter.sub}</p>`;
-                box.addEventListener('click', () => startChapterQuiz(chapter.code, chapter.name));
+                box.addEventListener('click', () => startChapterQuiz(chapter.code, chapter.name, currentClass));
                 chaptersGrid.appendChild(box);
             });
             
-            // विशेष अध्याय जोड़ें (केवल एक बार)
+            // विशेष अध्याय
             const special_box = document.createElement('div');
             special_box.classList.add('chapter-box');
             special_box.setAttribute('data-chapter-code', special_chapter.code);
             special_box.innerHTML = `<h3>${special_chapter.name}</h3><p>${special_chapter.sub}</p>`;
-            special_box.addEventListener('click', () => startChapterQuiz(special_chapter.code, special_chapter.name));
+            special_box.addEventListener('click', () => startChapterQuiz(special_chapter.code, special_chapter.name, 'special'));
             chaptersGrid.appendChild(special_box);
         }
 
-
         function getRandomQuestions(arr, count) {
-            // प्रश्नों को फेरबदल (shuffle) करें
             const shuffled = arr.sort(() => 0.5 - Math.random());
-            // पहले 'count' प्रश्न लें, या यदि कम हैं तो सभी प्रश्न लें
             return shuffled.slice(0, Math.min(count, arr.length));
         }
 
         function startRandomQuiz() {
-            let allQ = [];
-            
-            if (currentClass === '9') {
-                allQ = questions_data['9'];
-            } else if (currentClass === '10') {
-                allQ = questions_data['10'];
-            }
-            
-            // मोड को सहेजें
-            currentQuizMode = { type: 'random', value: currentClass, name: `कक्षा ${currentClass} - यादृच्छिक ${MAX_QUESTIONS_PER_ROUND} प्रश्न` };
-            
+            const allQ = questions_data[currentClass];
             quizQuestions = getRandomQuestions(allQ, MAX_QUESTIONS_PER_ROUND);
-            startQuiz(currentQuizMode.name);
+            currentQuizChapterName = 'यादृच्छिक प्रश्न';
+            startQuiz(`कक्षा ${currentClass} - यादृच्छिक ${quizQuestions.length} प्रश्न`, currentClass);
         }
 
-        function startChapterQuiz(chapterCode, chapterName) {
+        function startChapterQuiz(chapterCode, chapterName, classNumber) {
             let chapterQuestions = [];
             
-            if (chapterCode === special_chapter.code) {
+            if (classNumber === 'special') {
                 chapterQuestions = questions_data['special'];
+                currentClass = 'special'; 
             } else {
-                const questionsForClass = questions_data[currentClass];
-                chapterQuestions = questionsForClass.filter(q => q.chapter === chapterCode);
+                currentClass = classNumber;
+                chapterQuestions = questions_data[currentClass].filter(q => q.chapter === chapterCode);
             }
             
-            // सुनिश्चित करें कि प्रश्न संख्या MAX_QUESTIONS_PER_ROUND से अधिक न हो (या कम होने पर सभी लें)
             quizQuestions = getRandomQuestions(chapterQuestions, MAX_QUESTIONS_PER_ROUND);
             
             if (quizQuestions.length === 0) {
-                 alert(`क्षमा करें, अध्याय "${chapterName}" में कोई प्रश्न उपलब्ध नहीं है।`);
-                 showChapterSelection(); // अध्याय चयन पर वापस जाएँ
+                 alert(`क्षमा करें, अध्याय "${chapterName}" में कोई प्रश्न उपलब्ध नहीं है। कृपया इस अध्याय में प्रश्न जोड़ें।`);
+                 showChapterSelection();
                  return;
             }
             
-            // मोड को सहेजें
-            currentQuizMode = { type: 'chapter', value: chapterCode, name: `कक्षा ${currentClass} - ${chapterName} (${quizQuestions.length} प्रश्न)` };
-            
-            startQuiz(currentQuizMode.name);
-        }
-        
-        // नया फ़ंक्शन: क्विज़ पुनरारंभ करें (वर्तमान मोड के साथ)
-        function restartCurrentQuiz() {
-            if (currentQuizMode.type === 'random') {
-                startRandomQuiz(); // यह अपने आप नया सेट शफल करेगा
-            } else if (currentQuizMode.type === 'chapter') {
-                // अध्याय-वार पुनरारंभ के लिए अध्याय का नाम/कोड प्राप्त करें
-                const chapterCode = currentQuizMode.value;
-                const classChapters = currentClass === '9' ? class9_chapters : class10_chapters;
-                const chapterEntry = classChapters.find(c => c.code === chapterCode) || special_chapter;
-                startChapterQuiz(chapterCode, chapterEntry.name);
-            } else {
-                // यदि मोड सहेजा नहीं गया है तो मुख्य मेनू पर वापस जाएँ
-                showClassSelection();
-            }
+            currentQuizChapterName = chapterCode; 
+            startQuiz(`कक्षा ${currentClass !== 'special' ? currentClass : 'विशेष'} - ${chapterName} (${quizQuestions.length} प्रश्न)`, currentClass);
         }
 
-
-        function startQuiz(modeText) {
+        function startQuiz(modeText, classNumber) {
             currentQuestionIndex = 0;
             score = 0;
             questionAnswered = false;
+            isPaused = false; 
+            lifelineCount = 2; // क्विज़ शुरू होने पर लाइफलाइन रीसेट करें
+            currentClass = classNumber;
             
             modeSelectionMenu.style.display = 'none';
             chapterSelection.style.display = 'none';
@@ -639,97 +600,227 @@
             quizModeDisplay.textContent = modeText;
             totalQuestionsDisplay.textContent = quizQuestions.length;
             
+            quizStartTime = Date.now(); 
+            document.getElementById('pause-resume-btn').textContent = '⏸️ रोकें';
+            
             showQuestion();
         }
 
         function startTimer() {
-            let timeLeft = TIME_LIMIT;
+            if (isPaused) return; 
+            
+            let timeLeft = timeRemaining;
             timerBox.textContent = `⏰ ${timeLeft} सेकंड`;
-            timerBox.style.backgroundColor = '#28a745'; // हरा रंग
+            timerBox.style.backgroundColor = 'var(--secondary-color)';
 
             timerInterval = setInterval(() => {
                 timeLeft--;
+                timeRemaining = timeLeft; 
                 timerBox.textContent = `⏰ ${timeLeft} सेकंड`;
 
                 if (timeLeft <= 5 && timeLeft > 0) {
-                    timerBox.style.backgroundColor = '#dc3545';
+                    timerBox.style.backgroundColor = 'var(--alert-color)';
                 }
 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     timerBox.textContent = 'समय समाप्त!';
-                    // टाइम आउट होने पर अगले प्रश्न पर जाएँ
-                    setTimeout(() => handleNextQuestion(false), 1000); 
+                    setTimeout(() => handleNextQuestion(), 1000); 
                 }
             }, 1000);
+        }
+        
+        function togglePause() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pause-resume-btn');
+            const options = Array.from(optionsContainer.children);
+
+            if (isPaused) {
+                clearInterval(timerInterval);
+                btn.textContent = '▶️ शुरू करें';
+                timerBox.textContent = '⏸️ रुका हुआ';
+                timerBox.style.backgroundColor = '#ff9800'; 
+                options.forEach(li => li.style.pointerEvents = 'none'); 
+                lifelineBtn.disabled = true; 
+            } else {
+                if (!questionAnswered) {
+                    btn.textContent = '⏸️ रोकें';
+                    options.forEach(li => li.style.pointerEvents = 'auto'); 
+                    startTimer(); 
+                }
+                updateLifelineButton(); 
+                timerBox.style.backgroundColor = 'var(--secondary-color)';
+            }
+        }
+
+
+        // --- C. प्रश्न प्रकार और लाइफलाइन लॉजिक ---
+
+        function createOptionElement(optionText, correctAnswer) {
+            const li = document.createElement('li');
+            li.textContent = optionText;
+            li.classList.add('option-item');
+            li.addEventListener('click', () => selectAnswer(li, optionText, correctAnswer));
+            return li;
+        }
+        
+        function playAudio(audioElement) {
+            try {
+                audioElement.currentTime = 0; 
+                audioElement.play();
+            } catch (e) {
+                console.warn("Audio playback failed. Please ensure 'audio/correct.mp3' and 'audio/incorrect.mp3' files exist in the 'audio' folder.", e);
+            }
         }
 
         function showQuestion() {
             resetState();
+            timeRemaining = TIME_LIMIT; 
             startTimer(); 
-            
+
             const currentQuestion = quizQuestions[currentQuestionIndex];
             
             currentQuestionDisplay.textContent = currentQuestionIndex + 1;
-            questionText.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+            
+            updateLifelineButton();
 
-            const shuffledOptions = currentQuestion.options.sort(() => 0.5 - Math.random());
+            const questionType = currentQuestion.type || 'mcq';
 
-            shuffledOptions.forEach(option => {
-                const li = document.createElement('li');
-                li.textContent = option;
-                li.classList.add('option-item');
-                li.addEventListener('click', () => selectAnswer(li, option, currentQuestion.answer));
-                optionsContainer.appendChild(li);
-            });
+            if (questionType === 'true_false') {
+                questionText.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+                // 'सत्य' और 'असत्य' के दो ही विकल्प
+                const options = ["सत्य", "असत्य"];
+                options.forEach(option => {
+                    optionsContainer.appendChild(createOptionElement(option, currentQuestion.answer));
+                });
+            } else if (questionType === 'fill_in_the_blanks' || questionType === 'mcq') {
+                 // रिक्त स्थान और MCQ दोनों 4 विकल्प वाले होते हैं।
+                questionText.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+                const shuffledOptions = currentQuestion.options.sort(() => 0.5 - Math.random());
+                shuffledOptions.forEach(option => {
+                    optionsContainer.appendChild(createOptionElement(option, currentQuestion.answer));
+                });
+            }
         }
 
         function resetState() {
             clearInterval(timerInterval); 
             questionAnswered = false;
-            while (optionsContainer.firstChild) {
-                optionsContainer.removeChild(optionsContainer.firstChild);
-            }
+            optionsContainer.innerHTML = '';
+            document.getElementById('pause-resume-btn').textContent = '⏸️ रोकें';
+            isPaused = false;
         }
-
+        
         function selectAnswer(selectedLi, selectedOption, correctAnswer) {
-            if (questionAnswered) return;
+            if (questionAnswered || isPaused) return;
 
-            // टाइमर रोकें 
             clearInterval(timerInterval);
             timerBox.textContent = 'उत्तर दिया गया';
-            timerBox.style.backgroundColor = '#007bff';
+            timerBox.style.backgroundColor = 'var(--primary-color)';
 
             questionAnswered = true;
-            let isCorrect = false;
 
-            if (selectedOption === correctAnswer) {
+            let isCorrect = (selectedOption === correctAnswer);
+
+            if (isCorrect) {
                 selectedLi.classList.add('correct');
                 score++;
-                isCorrect = true;
+                playAudio(correctAudio);
             } else {
                 selectedLi.classList.add('incorrect');
+                playAudio(incorrectAudio);
             }
 
-            // सही उत्तर को हाइलाइट करें
             Array.from(optionsContainer.children).forEach(li => {
                 if (li.textContent === correctAnswer) {
-                    li.classList.add('correct');
+                    li.classList.add('correct'); 
                 }
-                li.style.pointerEvents = 'none'; // सभी विकल्पों को अक्षम करें
+                li.style.pointerEvents = 'none'; 
             });
             
-            // उत्तर देने के बाद ऑटोमैटिकली अगले प्रश्न पर जाएँ
-            setTimeout(() => handleNextQuestion(isCorrect), 1500); 
+            lifelineBtn.disabled = true; 
+
+            setTimeout(() => handleNextQuestion(), 1500); 
         }
 
-        function handleNextQuestion(isAnsweredCorrectly) {
+        function handleNextQuestion() {
             currentQuestionIndex++;
             if (currentQuestionIndex < quizQuestions.length) {
                 showQuestion();
             } else {
-                showResults(); // क्विज़ समाप्त होने पर परिणाम दिखाएँ
+                showResults();
             }
+        }
+        
+        function use5050Lifeline() {
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const questionType = currentQuestion.type || 'mcq';
+            
+            if (lifelineCount <= 0 || questionAnswered || isPaused) {
+                alert(`50:50 लाइफलाइन उपलब्ध नहीं है। शेष: ${lifelineCount}`);
+                return;
+            }
+            
+            if (questionType !== 'mcq' && questionType !== 'fill_in_the_blanks') {
+                alert("50:50 लाइफलाइन केवल 4-विकल्प वाले प्रश्नों (MCQ या रिक्त स्थान) के लिए उपलब्ध है।");
+                return;
+            }
+
+            const correctAnswer = currentQuestion.answer;
+            // पहले से हटाए गए विकल्पों को छोड़कर सभी विकल्पों को लें
+            const options = Array.from(optionsContainer.children).filter(el => !el.classList.contains('removed-5050')); 
+
+            if (options.length !== 4) {
+                 alert("यह प्रश्न 4 विकल्पों वाला नहीं है। 50:50 का उपयोग नहीं किया जा सकता।");
+                 return;
+            }
+
+            lifelineCount--;
+            
+            const correctOptionEl = options.find(el => el.textContent === correctAnswer);
+            const incorrectOptions = options.filter(el => el !== correctOptionEl);
+            
+            incorrectOptions.sort(() => 0.5 - Math.random()); 
+
+            // दो गलत विकल्पों को हटा दें
+            for (let i = 0; i < 2 && i < incorrectOptions.length; i++) {
+                const incorrectEl = incorrectOptions[i];
+                incorrectEl.style.opacity = '0.3';
+                incorrectEl.style.pointerEvents = 'none';
+                incorrectEl.classList.add('removed-5050');
+            }
+            
+            updateLifelineButton();
+            alert(`50:50 का उपयोग किया गया! अब ${lifelineCount} लाइफलाइन शेष हैं।`);
+        }
+
+        function updateLifelineButton() {
+             lifelineCountSpan.textContent = lifelineCount;
+             
+             const currentQuestion = quizQuestions[currentQuestionIndex];
+             const questionType = currentQuestion ? (currentQuestion.type || 'mcq') : 'mcq';
+             // 4 विकल्प वाले प्रश्नों के लिए ही 50:50 काम करेगा (mcq और fill_in_the_blanks)
+             const is4OptionQuestion = questionType === 'mcq' || questionType === 'fill_in_the_blanks';
+             
+             if (lifelineCount <= 0 || questionAnswered || isPaused || !is4OptionQuestion) {
+                 lifelineBtn.disabled = true;
+             } else {
+                 lifelineBtn.disabled = false;
+             }
+        }
+        
+        // --- D. परिणाम और लीडरबोर्ड लॉजिक (अपरिवर्तित) ---
+
+        function saveToLeaderboard(result) {
+            leaderboardData.push(result);
+            leaderboardData.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return a.time - b.time;
+            }); 
+            if (leaderboardData.length > 100) {
+                 leaderboardData = leaderboardData.slice(0, 100);
+            }
+            localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboardData));
         }
 
         function showResults() {
@@ -737,19 +828,157 @@
             resultScreen.style.display = 'block';
             
             const total = quizQuestions.length;
-            scoreDisplay.textContent = `${score} / ${total}`;
-            clearInterval(timerInterval); 
+            const endTime = Date.now();
+            const totalTimeTakenMs = endTime - quizStartTime;
+            const totalTimeTakenSec = Math.round(totalTimeTakenMs / 1000); 
             
-            // सुनिश्चित करें कि पुनरारंभ बटन वर्तमान मोड के अनुसार तैयार है
-            if (currentQuizMode.name) {
-                restartCurrentModeButton.textContent = `पुनरारंभ करें: ${currentQuizMode.name}`;
-            } else {
-                 restartCurrentModeButton.textContent = `पुनरारंभ करें (वर्तमान मोड)`;
+            saveToLeaderboard({
+                name: userName,
+                score: score,
+                total: total,
+                class: currentClass === 'special' ? 'विशेष' : currentClass, 
+                chapter: currentQuizChapterName,
+                time: totalTimeTakenSec,
+                timestamp: Date.now()
+            });
+
+            const resultTitle = resultScreen.querySelector('h2');
+            resultTitle.textContent = `${userName !== "अज्ञात उपयोगकर्ता" ? userName + ',' : ''} क्विज़ समाप्त! 🎉`;
+
+            resultsDiv.innerHTML = `
+                <p>आपका अंतिम स्कोर है:</p>
+                <div id="score-display" style="font-size: 3em; color: var(--secondary-color); font-weight: bold; margin-bottom: 20px;">${score} / ${total}</div>
+                <p style="font-size: 1.2em;">कुल समय लिया: <strong>${totalTimeTakenSec} सेकंड</strong></p>
+                <p style="font-size: 1em; color: #6c757d; margin-top: 10px;">(मोड: ${quizModeDisplay.textContent})</p>
+            `;
+            
+            if (score >= 15 && total >= 20) {
+                triggerConfetti();
+            }
+            
+            clearInterval(timerInterval); 
+        }
+
+        function populateLeaderboardChapterFilter(classFilter) {
+            leaderboardChapterFilter.innerHTML = '<option value="all">सभी अध्याय/मोड</option>';
+            const chapterSet = new Set();
+            chapterSet.add('यादृच्छिक प्रश्न'); 
+
+            if (classFilter === '9' || classFilter === 'all') {
+                class9_chapters.forEach(c => chapterSet.add(c.code));
+            }
+            if (classFilter === '10' || classFilter === 'all') {
+                class10_chapters.forEach(c => chapterSet.add(c.code));
+            }
+            if (classFilter === 'special' || classFilter === 'all') {
+                 chapterSet.add(special_chapter.code);
+            }
+
+            Array.from(chapterSet).sort().forEach(chapter => {
+                const option = document.createElement('option');
+                option.value = chapter;
+                option.textContent = chapter;
+                leaderboardChapterFilter.appendChild(option);
+            });
+        }
+        
+        function showLeaderboardModal() {
+            [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen].forEach(el => el.style.display = 'none');
+            
+            leaderboardClassFilter.value = 'all';
+            populateLeaderboardChapterFilter('all');
+            leaderboardChapterFilter.value = 'all';
+
+            leaderboardModal.style.display = 'flex';
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const classFilter = leaderboardClassFilter.value;
+            const chapterFilter = leaderboardChapterFilter.value;
+            
+            populateLeaderboardChapterFilter(classFilter);
+            
+            let filteredData = leaderboardData.filter(item => {
+                const filterClassValue = classFilter === 'special' ? 'विशेष' : classFilter;
+
+                const classMatch = filterClassValue === 'all' || item.class === filterClassValue;
+                const chapterMatch = chapterFilter === 'all' || item.chapter === chapterFilter;
+                
+                return classMatch && chapterMatch;
+            });
+            
+            leaderboardBody.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                leaderboardStatus.style.display = 'block';
+                return;
+            }
+            leaderboardStatus.style.display = 'none';
+
+            filteredData.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                let rankClass = '';
+                if (index === 0) rankClass = 'rank-1';
+                else if (index === 1) rankClass = 'rank-2';
+                else if (index === 2) rankClass = 'rank-3';
+                tr.classList.add(rankClass);
+
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${item.class}</td>
+                    <td><strong>${item.score} / ${item.total}</strong></td>
+                    <td>${item.time}</td>
+                    <td>${item.chapter}</td>
+                `;
+                leaderboardBody.appendChild(tr);
+            });
+        }
+
+        function triggerConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#ffeb3b', '#ff9800', '#ff5722'];
+            const container = document.body;
+            const pieces = 70; 
+
+            for (let i = 0; i < pieces; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.width = `${Math.random() * 8 + 5}px`;
+                confetti.style.height = `${Math.random() * 8 + 5}px`;
+                confetti.style.opacity = '1';
+                
+                const duration = Math.random() * 3 + 2; 
+                const delay = Math.random() * 0.5; 
+
+                confetti.style.transition = `transform ${duration}s ease-in-out ${delay}s, opacity ${duration}s ease-in-out ${delay}s`;
+                
+                confetti.style.transform = `translateY(0) rotate(0deg)`;
+                
+                container.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.style.transform = `translateY(100vh) translateX(${Math.random() * 600 - 300}px) rotate(${Math.random() * 1080 + 720}deg)`;
+                    confetti.style.opacity = '0';
+                }, 50);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
             }
         }
 
-        // पेज लोड पर कक्षा चयन मेनू दिखाएँ
-        document.addEventListener('DOMContentLoaded', showClassSelection);
+
+        function initializeQuiz() {
+            attachEventListeners(); 
+            nameModal.style.display = 'flex';
+        }
+
+        // पेज लोड होने पर डेटा लोड करें
+        document.addEventListener('DOMContentLoaded', loadQuizData);
 
     </script>
 
