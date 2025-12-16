@@ -1,11 +1,623 @@
 {
-  "chapter": { "code": "SI मात्रक और सूत्र", "name": "विशेष: सभी SI मात्रक और रासायनिक सूत्र (50 प्रश्न)", "sub": "सामान्य विज्ञान" },
+  "chapter": {
+    "code": "SI मात्रक और सूत्र",
+    "name": "विशेष: सभी SI मात्रक और रासायनिक सूत्र (50 प्रश्न)",
+    "sub": "सामान्य विज्ञान"
+  },
   "questions": [
-    { "id": 1, "question": "विद्युत आवेश (Electric Charge) का SI मात्रक क्या है?", "options": ["एम्पीयर", "कूलाम्ब", "ओम", "वोल्ट"], "answer": "कूलाम्ब", "chapter": "SI मात्रक और सूत्र", "type": "mcq" },
-    { "id": 2, "question": "शक्ति (Power) का SI मात्रक वॉट (Watt) है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" },
-    { "id": 3, "question": "प्लास्टर ऑफ पेरिस का रासायनिक सूत्र है: ____।", "options": ["CaSO₄.2H₂O", "CaSO₄.1/2H₂O", "CaCO₃", "CaCl₂"], "answer": "CaSO₄.1/2H₂O", "chapter": "SI मात्रक और सूत्र", "type": "fill_in_the_blanks" },
-    { "id": 4, "question": "साधारण नमक (Common Salt) का रासायनिक सूत्र ____ है।", "options": ["KCl", "Na₂CO₃", "NaCl", "Ca(OH)₂"], "answer": "NaCl", "chapter": "SI मात्रक और सूत्र", "type": "fill_in_the_blanks" },
-    { "id": 5, "question": "आवृत्ति (Frequency) का SI मात्रक हर्ट्ज़ (Hz) है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" },
-    { "id": 6, "question": "पानी (Water) का रासायनिक सूत्र H₂O है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" }
+    {
+      "id": 1,
+      "question": "विद्युत आवेश (Electric Charge) का SI मात्रक क्या है?",
+      "options": [
+        "एम्पीयर",
+        "कूलाम्ब",
+        "ओम",
+        "वोल्ट"
+      ],
+      "answer": "कूलाम्ब",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 2,
+      "question": "शक्ति (Power) का SI मात्रक वॉट (Watt) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 3,
+      "question": "प्लास्टर ऑफ पेरिस का रासायनिक सूत्र है: ____।",
+      "options": [
+        "CaSO₄.2H₂O",
+        "CaSO₄.1/2H₂O",
+        "CaCO₃",
+        "CaCl₂"
+      ],
+      "answer": "CaSO₄.1/2H₂O",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 4,
+      "question": "साधारण नमक (Common Salt) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "KCl",
+        "Na₂CO₃",
+        "NaCl",
+        "Ca(OH)₂"
+      ],
+      "answer": "NaCl",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 5,
+      "question": "आवृत्ति (Frequency) का SI मात्रक हर्ट्ज़ (Hz) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 6,
+      "question": "पानी (Water) का रासायनिक सूत्र H₂O है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 7,
+      "question": "द्रव्यमान (Mass) का SI मात्रक क्या है?",
+      "options": [
+        "ग्राम",
+        "किलोग्राम",
+        "क्विंटल",
+        "टन"
+      ],
+      "answer": "किलोग्राम",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 8,
+      "question": "बल (Force) का SI मात्रक न्यूटन (Newton) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 9,
+      "question": "बेकिंग सोडा (Baking Soda) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "Na₂CO₃",
+        "NaHCO₃",
+        "NaOH",
+        "CaCO₃"
+      ],
+      "answer": "NaHCO₃",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 10,
+      "question": "तापमान (Temperature) का SI मात्रक क्या है?",
+      "options": [
+        "सेल्सियस",
+        "फारेनहाइट",
+        "केल्विन",
+        "रैंकिन"
+      ],
+      "answer": "केल्विन",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 11,
+      "question": "दाब (Pressure) का SI मात्रक पास्कल (Pascal) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 12,
+      "question": "बुझा हुआ चूना (Slaked Lime) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "CaO",
+        "CaCO₃",
+        "Ca(OH)₂",
+        "CaCl₂"
+      ],
+      "answer": "Ca(OH)₂",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 13,
+      "question": "कार्य (Work) और ऊर्जा (Energy) का SI मात्रक जूल (Joule) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 14,
+      "question": "अम्लराज (Aqua Regia) किसका मिश्रण है?",
+      "options": [
+        "HNO₃ + H₂SO₄",
+        "HCl + HNO₃ (3:1)",
+        "HCl + H₂O",
+        "HNO₃ + H₂O"
+      ],
+      "answer": "HCl + HNO₃ (3:1)",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 15,
+      "question": "प्रतिरोध (Resistance) का SI मात्रक ओम (Ω) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 16,
+      "question": "सल्फ्यूरिक एसिड (Sulphuric Acid) का सूत्र ____ है।",
+      "options": [
+        "HCl",
+        "H₂SO₄",
+        "HNO₃",
+        "H₂CO₃"
+      ],
+      "answer": "H₂SO₄",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 17,
+      "question": "पदार्थ की मात्रा (Amount of Substance) का SI मात्रक क्या है?",
+      "options": [
+        "किलोग्राम",
+        "मोल",
+        "कैन्डेला",
+        "एम्पीयर"
+      ],
+      "answer": "मोल",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 18,
+      "question": "गतिज ऊर्जा (Kinetic Energy) का सूत्र ½mv² है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 19,
+      "question": "विरंजक चूर्ण (Bleaching Powder) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "CaCl₂",
+        "Ca(OH)₂",
+        "CaOCl₂",
+        "CaCO₃"
+      ],
+      "answer": "CaOCl₂",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 20,
+      "question": "विभवान्तर (Potential Difference) का SI मात्रक क्या है?",
+      "options": [
+        "ओम",
+        "कूलाम्ब",
+        "वोल्ट",
+        "वॉट"
+      ],
+      "answer": "वोल्ट",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 21,
+      "question": "धोने का सोडा (Washing Soda) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "NaHCO₃",
+        "Na₂CO₃.10H₂O",
+        "NaCl",
+        "Na₂SO₄"
+      ],
+      "answer": "Na₂CO₃.10H₂O",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 22,
+      "question": "कोणीय आवृत्ति (Angular Frequency) का SI मात्रक रेडियन प्रति सेकंड (rad/s) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 23,
+      "question": "चूना पत्थर (Limestone) का रासायनिक सूत्र है: ____।",
+      "options": [
+        "CaO",
+        "Ca(OH)₂",
+        "CaCO₃",
+        "CaCl₂"
+      ],
+      "answer": "CaCO₃",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 24,
+      "question": "तारत्व (Pitch) का SI मात्रक मीटर है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 25,
+      "question": "वेग (Velocity) का SI मात्रक क्या है?",
+      "options": [
+        "मीटर",
+        "मीटर/सेकंड",
+        "मीटर/सेकंड²",
+        "किलोमीटर/घंटा"
+      ],
+      "answer": "मीटर/सेकंड",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 26,
+      "question": "ग्लूकोज (Glucose) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "C₆H₁₂O₆",
+        "C₁₂H₂₂O₁₁",
+        "CH₄",
+        "C₂H₆O"
+      ],
+      "answer": "C₆H₁₂O₆",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 27,
+      "question": "संवेग (Momentum) का SI मात्रक न्यूटन है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 28,
+      "question": "त्वरण (Acceleration) का SI मात्रक क्या है?",
+      "options": [
+        "मीटर/सेकंड",
+        "मीटर/सेकंड²",
+        "न्यूटन",
+        "जूल"
+      ],
+      "answer": "मीटर/सेकंड²",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 29,
+      "question": "चीनी (Sugar - Sucrose) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "C₆H₁₂O₆",
+        "C₁₂H₂₂O₁₁",
+        "CH₃COOH",
+        "CO₂"
+      ],
+      "answer": "C₁₂H₂₂O₁₁",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 30,
+      "question": "मोलर द्रव्यमान (Molar Mass) का SI मात्रक ग्राम/मोल है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 31,
+      "question": "सोडियम हाइड्रॉक्साइड (Sodium Hydroxide) का सूत्र क्या है?",
+      "options": [
+        "NaCl",
+        "Na₂CO₃",
+        "NaOH",
+        "KOH"
+      ],
+      "answer": "NaOH",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 32,
+      "question": "आयतन (Volume) का SI मात्रक क्या है?",
+      "options": [
+        "मीटर²",
+        "मीटर³",
+        "लीटर",
+        "किलोग्राम"
+      ],
+      "answer": "मीटर³",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 33,
+      "question": "गति (Speed) एक सदिश (Vector) राशि है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 34,
+      "question": "विस्थापन (Displacement) का SI मात्रक क्या है?",
+      "options": [
+        "मीटर",
+        "मीटर/सेकंड",
+        "किलोमीटर",
+        "सेंटीमीटर"
+      ],
+      "answer": "मीटर",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 35,
+      "question": "कैलोरी (Calorie) SI मात्रक है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 36,
+      "question": "ओजोन (Ozone) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "O₂",
+        "O₃",
+        "CO₂",
+        "H₂O₂"
+      ],
+      "answer": "O₃",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 37,
+      "question": "प्रतिरोधकता (Resistivity) का SI मात्रक क्या है?",
+      "options": [
+        "ओम",
+        "ओम-मीटर",
+        "सीमेंस",
+        "वोल्ट"
+      ],
+      "answer": "ओम-मीटर",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 38,
+      "question": "अमोनिया (Ammonia) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "NH₃",
+        "NH₄Cl",
+        "N₂",
+        "HNO₃"
+      ],
+      "answer": "NH₃",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 39,
+      "question": "समय (Time) का SI मात्रक मिनट है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "असत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 40,
+      "question": "कास्टिक पोटाश (Caustic Potash) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "NaOH",
+        "KOH",
+        "K₂CO₃",
+        "NaCl"
+      ],
+      "answer": "KOH",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 41,
+      "question": "विद्युत धारा (Electric Current) का SI मात्रक क्या है?",
+      "options": [
+        "कूलाम्ब",
+        "वोल्ट",
+        "एम्पीयर",
+        "वॉट"
+      ],
+      "answer": "एम्पीयर",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 42,
+      "question": "नाइट्रिक एसिड (Nitric Acid) का सूत्र क्या है?",
+      "options": [
+        "HCl",
+        "H₂SO₄",
+        "HNO₃",
+        "H₂CO₃"
+      ],
+      "answer": "HNO₃",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 43,
+      "question": "प्रकाश की तीव्रता (Luminous Intensity) का SI मात्रक क्या है?",
+      "options": [
+        "लक्स",
+        "कैन्डेला",
+        "वॉट",
+        "जूल"
+      ],
+      "answer": "कैन्डेला",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 44,
+      "question": "विस्थापन का सूत्र v × t (वेग × समय) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 45,
+      "question": "मिथेन (Methane) गैस का रासायनिक सूत्र ____ है।",
+      "options": [
+        "C₂H₆",
+        "CH₄",
+        "C₃H₈",
+        "C₆H₆"
+      ],
+      "answer": "CH₄",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 46,
+      "question": "आवृत्ति को T⁻¹ के रूप में दर्शाया जाता है, जहाँ T आवर्तकाल (Time Period) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 47,
+      "question": "कार्बन डाइऑक्साइड (Carbon Dioxide) का रासायनिक सूत्र क्या है?",
+      "options": [
+        "CO",
+        "CO₂",
+        "CaCO₃",
+        "H₂O"
+      ],
+      "answer": "CO₂",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    },
+    {
+      "id": 48,
+      "question": "बल का सूत्र F = ma (द्रव्यमान × त्वरण) है।",
+      "options": [
+        "सत्य",
+        "असत्य"
+      ],
+      "answer": "सत्य",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "true_false"
+    },
+    {
+      "id": 49,
+      "question": "बिना बुझा चूना (Quicklime) का रासायनिक सूत्र ____ है।",
+      "options": [
+        "Ca(OH)₂",
+        "CaCO₃",
+        "CaO",
+        "CaCl₂"
+      ],
+      "answer": "CaO",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "fill_in_the_blanks"
+    },
+    {
+      "id": 50,
+      "question": "ऊष्मा (Heat) का SI मात्रक क्या है?",
+      "options": [
+        "सेल्सियस",
+        "वॉट",
+        "जूल",
+        "कैलोरी"
+      ],
+      "answer": "जूल",
+      "chapter": "SI मात्रक और सूत्र",
+      "type": "mcq"
+    }
   ]
 }
