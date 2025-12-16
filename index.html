@@ -110,6 +110,7 @@
         .action-btn:hover:not(:disabled) {
             background-color: #0056b3;
             transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
         .action-btn:disabled {
             background-color: #6c757d;
@@ -247,16 +248,7 @@
         #results { margin-top: 30px; padding: 30px; background: var(--bg-light); border-radius: 15px; border: 1px solid #dee2e6; }
         #score-display { font-size: 3em; color: var(--secondary-color); font-weight: 700; margin: 10px 0 20px 0; }
         #results p strong { color: var(--primary-color); font-weight: 700; }
-        #leaderboard-modal h2 { color: var(--primary-color); border-bottom: 2px solid #ccc; padding-bottom: 10px; }
-        .leaderboard-filters { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        #leaderboard-class-filter, #leaderboard-chapter-filter { padding: 10px; border-radius: 8px; border: 1px solid #ccc; flex-grow: 1; }
-        #leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); border-radius: 10px; overflow: hidden; }
-        #leaderboard-table thead { background-color: var(--primary-color); color: white; }
-        #leaderboard-table th, #leaderboard-table td { padding: 12px; text-align: left; border-bottom: 1px solid #dee2e6; }
-        #leaderboard-table tr:nth-child(even) { background-color: #f3f3f3; }
-        .rank-1 { background-color: var(--warning-color) !important; color: var(--text-color); }
-        .rank-2 { background-color: #ced4da !important; }
-        .rank-3 { background-color: #e9ecef !important; }
+        
         .confetti { position: fixed; width: 8px; height: 8px; border-radius: 50%; top: -10px; opacity: 0; pointer-events: none; z-index: 10000; }
         .footer { margin-top: 30px; padding: 15px; color: #777; font-size: 0.8em; text-align: center; width: 100%; }
         @media (max-width: 768px) {
@@ -283,43 +275,6 @@
         </div>
     </div>
 
-    <div id="leaderboard-modal" class="modal-overlay">
-        <div class="modal-content large">
-            <h2 style="color: var(--primary-color); margin-top: 0;">🏆 क्विज़ लीडरबोर्ड</h2>
-            <div class="leaderboard-filters">
-                <select id="leaderboard-class-filter">
-                    <option value="all">सभी कक्षाएँ</option>
-                    <option value="9">कक्षा 9</option>
-                    <option value="10">कक्षा 10</option>
-                    <option value="special">विशेष</option>
-                </select>
-                <select id="leaderboard-chapter-filter">
-                    <option value="all">सभी अध्याय/मोड</option>
-                </select>
-            </div>
-            
-            <p id="leaderboard-status" style="color: var(--alert-color); display: none;">कोई परिणाम उपलब्ध नहीं।</p>
-            <div style="max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px;">
-                <table id="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>रैंक</th>
-                            <th>नाम</th>
-                            <th>क्लास</th>
-                            <th>स्कोर</th>
-                            <th>समय (से.)</th>
-                            <th>मोड/अध्याय</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                    </tbody>
-                </table>
-            </div>
-
-            <button id="close-leaderboard-btn" class="mode-button skip-btn" style="width: 50%; min-width: 150px; margin-top: 20px;">बंद करें</button>
-        </div>
-    </div>
-
 
     <div class="container">
         <h1>📚 विज्ञान क्विज़ - कक्षा 9 & 10</h1>
@@ -328,8 +283,7 @@
             <p style="font-size: 1.1em; color: #555;">क्विज़ शुरू करने के लिए कक्षा चुनें:</p>
             <button id="class-9-btn" class="mode-button main-btn" data-class="9">कक्षा 9</button>
             <button id="class-10-btn" class="mode-button main-btn" data-class="10">कक्षा 10</button>
-            <button id="show-leaderboard-btn" class="mode-button leaderboard-btn">🏆 लीडरबोर्ड देखें</button> 
-        </div>
+            </div>
 
         <div id="mode-selection-menu" class="menu-screen" style="display:none;">
             <p style="font-size: 1.1em; color: #555;">क्विज़ मोड चुनें:</p>
@@ -365,7 +319,8 @@
             <h2>क्विज़ समाप्त! 🎉</h2>
             <div id="results">
             </div>
-            <button id="restart-button" class="mode-button action-btn" style="width: 50%; min-width: 200px; margin-top: 20px;">मुख्य मेनू पर वापस जाएं</button>
+            <button id="reattempt-button" class="mode-button action-btn" style="width: 50%; min-width: 200px; margin-top: 20px;">पुनः प्रयास करें</button>
+            <button id="back-to-main-menu-button" class="mode-button skip-btn" style="width: 50%; min-width: 200px; margin-top: 10px;">मुख्य मेनू पर वापस जाएं</button>
         </div>
 
     </div>
@@ -388,11 +343,11 @@
         let quizStartTime = 0; 
         let isPaused = false; 
         let timeRemaining = TIME_LIMIT; 
-        let leaderboardData = JSON.parse(localStorage.getItem('quizLeaderboard')) || []; 
         let currentQuizChapterName = 'यादृच्छिक'; 
         let lifelineCount = 2; // 50:50 लाइफलाइन की गिनती
-        
-        // ऑडियो ऑब्जेक्ट्स: यूजर को 'audio/' फोल्डर में ये फाइलें प्रदान करनी होंगी
+        let lastQuizContext = { type: 'random', class: '9', chapterCode: 'यादृच्छिक प्रश्न', chapterName: 'यादृच्छिक प्रश्न' }; // नया: अंतिम क्विज़ संदर्भ
+
+        // ऑडियो ऑब्जेक्ट्स: कृपया सुनिश्चित करें कि 'audio/' फ़ोल्डर में ये फाइलें मौजूद हैं।
         const correctAudio = new Audio('audio/correct.mp3'); 
         const incorrectAudio = new Audio('audio/incorrect.mp3'); 
 
@@ -421,11 +376,6 @@
         const chapterSelectionTitle = document.getElementById('chapter-selection-title');
         const nameModal = document.getElementById('name-modal');
         const userNameInput = document.getElementById('user-name-input');
-        const leaderboardModal = document.getElementById('leaderboard-modal');
-        const leaderboardClassFilter = document.getElementById('leaderboard-class-filter');
-        const leaderboardChapterFilter = document.getElementById('leaderboard-chapter-filter');
-        const leaderboardBody = document.getElementById('leaderboard-body');
-        const leaderboardStatus = document.getElementById('leaderboard-status');
         const resultsDiv = document.getElementById('results');
         const loadingOverlay = document.getElementById('loading-overlay');
         const lifelineBtn = document.getElementById('lifeline-btn');
@@ -474,13 +424,13 @@
             document.getElementById('random-question-btn').addEventListener('click', startRandomQuiz);
             document.getElementById('back-to-class-btn').addEventListener('click', showClassSelection);
             document.getElementById('back-to-mode-btn').addEventListener('click', showModeSelection);
-            document.getElementById('restart-button').addEventListener('click', showClassSelection); 
-            document.getElementById('show-leaderboard-btn').addEventListener('click', showLeaderboardModal);
-            document.getElementById('close-leaderboard-btn').addEventListener('click', () => leaderboardModal.style.display = 'none');
-            leaderboardClassFilter.addEventListener('change', renderLeaderboard);
-            leaderboardChapterFilter.addEventListener('change', renderLeaderboard);
+            
+            // नया: परिणाम स्क्रीन बटन
+            document.getElementById('reattempt-button').addEventListener('click', reattemptQuiz); 
+            document.getElementById('back-to-main-menu-button').addEventListener('click', showClassSelection); 
+            
             document.getElementById('pause-resume-btn').addEventListener('click', togglePause);
-            lifelineBtn.addEventListener('click', use5050Lifeline); // लाइफलाइन इवेंट लिसनर
+            document.getElementById('lifeline-btn').addEventListener('click', use5050Lifeline); // लाइफलाइन इवेंट लिसनर
         }
 
         function handleNameInput() {
@@ -501,12 +451,7 @@
         }
 
         function showClassSelection() {
-            [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen, leaderboardModal].forEach(el => el.style.display = 'none');
-            
-            populateLeaderboardChapterFilter('all');
-            leaderboardClassFilter.value = 'all';
-            leaderboardChapterFilter.value = 'all';
-
+            [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen].forEach(el => el.style.display = 'none');
             classSelectionMenu.style.display = 'flex';
             currentClass = null;
             clearInterval(timerInterval);
@@ -558,6 +503,8 @@
             const allQ = questions_data[currentClass];
             quizQuestions = getRandomQuestions(allQ, MAX_QUESTIONS_PER_ROUND);
             currentQuizChapterName = 'यादृच्छिक प्रश्न';
+            // संदर्भ सहेजें
+            lastQuizContext = { type: 'random', class: currentClass, chapterCode: 'यादृच्छिक प्रश्न', chapterName: 'यादृच्छिक प्रश्न' };
             startQuiz(`कक्षा ${currentClass} - यादृच्छिक ${quizQuestions.length} प्रश्न`, currentClass);
         }
 
@@ -581,6 +528,8 @@
             }
             
             currentQuizChapterName = chapterCode; 
+            // संदर्भ सहेजें
+            lastQuizContext = { type: 'chapter', class: classNumber, chapterCode: chapterCode, chapterName: chapterName };
             startQuiz(`कक्षा ${currentClass !== 'special' ? currentClass : 'विशेष'} - ${chapterName} (${quizQuestions.length} प्रश्न)`, currentClass);
         }
 
@@ -605,6 +554,22 @@
             
             showQuestion();
         }
+        
+        function reattemptQuiz() {
+            const context = lastQuizContext;
+            
+            if (context.type === 'random') {
+                // यादृच्छिक क्विज़ पुनः शुरू करें
+                startRandomQuiz();
+            } else if (context.type === 'chapter') {
+                // अध्याय-वार क्विज़ पुनः शुरू करें
+                startChapterQuiz(context.chapterCode, context.chapterName, context.class);
+            } else {
+                 // Fallback
+                 showClassSelection();
+            }
+        }
+
 
         function startTimer() {
             if (isPaused) return; 
@@ -791,7 +756,7 @@
             }
             
             updateLifelineButton();
-            alert(`50:50 का उपयोग किया गया! अब ${lifelineCount} लाइफलाइन शेष हैं।`);
+            // alert(`50:50 का उपयोग किया गया! अब ${lifelineCount} लाइफलाइन शेष हैं।`);
         }
 
         function updateLifelineButton() {
@@ -809,19 +774,7 @@
              }
         }
         
-        // --- D. परिणाम और लीडरबोर्ड लॉजिक (अपरिवर्तित) ---
-
-        function saveToLeaderboard(result) {
-            leaderboardData.push(result);
-            leaderboardData.sort((a, b) => {
-                if (b.score !== a.score) return b.score - a.score;
-                return a.time - b.time;
-            }); 
-            if (leaderboardData.length > 100) {
-                 leaderboardData = leaderboardData.slice(0, 100);
-            }
-            localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboardData));
-        }
+        // --- D. परिणाम लॉजिक ---
 
         function showResults() {
             quizScreen.style.display = 'none';
@@ -832,16 +785,6 @@
             const totalTimeTakenMs = endTime - quizStartTime;
             const totalTimeTakenSec = Math.round(totalTimeTakenMs / 1000); 
             
-            saveToLeaderboard({
-                name: userName,
-                score: score,
-                total: total,
-                class: currentClass === 'special' ? 'विशेष' : currentClass, 
-                chapter: currentQuizChapterName,
-                time: totalTimeTakenSec,
-                timestamp: Date.now()
-            });
-
             const resultTitle = resultScreen.querySelector('h2');
             resultTitle.textContent = `${userName !== "अज्ञात उपयोगकर्ता" ? userName + ',' : ''} क्विज़ समाप्त! 🎉`;
 
@@ -859,82 +802,6 @@
             clearInterval(timerInterval); 
         }
 
-        function populateLeaderboardChapterFilter(classFilter) {
-            leaderboardChapterFilter.innerHTML = '<option value="all">सभी अध्याय/मोड</option>';
-            const chapterSet = new Set();
-            chapterSet.add('यादृच्छिक प्रश्न'); 
-
-            if (classFilter === '9' || classFilter === 'all') {
-                class9_chapters.forEach(c => chapterSet.add(c.code));
-            }
-            if (classFilter === '10' || classFilter === 'all') {
-                class10_chapters.forEach(c => chapterSet.add(c.code));
-            }
-            if (classFilter === 'special' || classFilter === 'all') {
-                 chapterSet.add(special_chapter.code);
-            }
-
-            Array.from(chapterSet).sort().forEach(chapter => {
-                const option = document.createElement('option');
-                option.value = chapter;
-                option.textContent = chapter;
-                leaderboardChapterFilter.appendChild(option);
-            });
-        }
-        
-        function showLeaderboardModal() {
-            [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen].forEach(el => el.style.display = 'none');
-            
-            leaderboardClassFilter.value = 'all';
-            populateLeaderboardChapterFilter('all');
-            leaderboardChapterFilter.value = 'all';
-
-            leaderboardModal.style.display = 'flex';
-            renderLeaderboard();
-        }
-
-        function renderLeaderboard() {
-            const classFilter = leaderboardClassFilter.value;
-            const chapterFilter = leaderboardChapterFilter.value;
-            
-            populateLeaderboardChapterFilter(classFilter);
-            
-            let filteredData = leaderboardData.filter(item => {
-                const filterClassValue = classFilter === 'special' ? 'विशेष' : classFilter;
-
-                const classMatch = filterClassValue === 'all' || item.class === filterClassValue;
-                const chapterMatch = chapterFilter === 'all' || item.chapter === chapterFilter;
-                
-                return classMatch && chapterMatch;
-            });
-            
-            leaderboardBody.innerHTML = '';
-            
-            if (filteredData.length === 0) {
-                leaderboardStatus.style.display = 'block';
-                return;
-            }
-            leaderboardStatus.style.display = 'none';
-
-            filteredData.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                let rankClass = '';
-                if (index === 0) rankClass = 'rank-1';
-                else if (index === 1) rankClass = 'rank-2';
-                else if (index === 2) rankClass = 'rank-3';
-                tr.classList.add(rankClass);
-
-                tr.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.name}</td>
-                    <td>${item.class}</td>
-                    <td><strong>${item.score} / ${item.total}</strong></td>
-                    <td>${item.time}</td>
-                    <td>${item.chapter}</td>
-                `;
-                leaderboardBody.appendChild(tr);
-            });
-        }
 
         function triggerConfetti() {
             const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#ffeb3b', '#ff9800', '#ff5722'];
