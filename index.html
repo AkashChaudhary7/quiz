@@ -264,18 +264,6 @@
         <p>क्विज़ डेटा लोड हो रहा है...</p>
     </div>
 
-    <div id="name-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 style="color: var(--primary-color); margin-top: 0;">क्विज़ में आपका स्वागत है!</h2>
-            <p>कृपया अपना नाम दर्ज करें:</p>
-            <input type="text" id="user-name-input" placeholder="आपका नाम" style="width: 90%; padding: 12px; margin: 15px 0 20px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 1.1em; box-sizing: border-box;">
-            
-            <button id="start-quiz-with-name-btn" class="mode-button action-btn" style="width: 100%;">क्विज़ शुरू करें</button>
-            <button id="skip-name-btn" class="mode-button skip-btn" style="width: 100%;">नाम के बिना जारी रखें (Skip)</button>
-        </div>
-    </div>
-
-
     <div class="container">
         <h1>📚 विज्ञान क्विज़ - कक्षा 9 & 10</h1>
         
@@ -283,7 +271,7 @@
             <p style="font-size: 1.1em; color: #555;">क्विज़ शुरू करने के लिए कक्षा चुनें:</p>
             <button id="class-9-btn" class="mode-button main-btn" data-class="9">कक्षा 9</button>
             <button id="class-10-btn" class="mode-button main-btn" data-class="10">कक्षा 10</button>
-            </div>
+        </div>
 
         <div id="mode-selection-menu" class="menu-screen" style="display:none;">
             <p style="font-size: 1.1em; color: #555;">क्विज़ मोड चुनें:</p>
@@ -326,7 +314,7 @@
     </div>
 
     <div class="footer">
-        Made with ❤️ by Akash Chaudhary | Modern UI by Gemini
+        | Made with ❤️ by Akash Chaudhary |
     </div>
 
     <script>
@@ -339,13 +327,12 @@
         let questionAnswered = false;
         let timerInterval;
         let quizQuestions = [];
-        let userName = "अज्ञात उपयोगकर्ता";
         let quizStartTime = 0; 
         let isPaused = false; 
         let timeRemaining = TIME_LIMIT; 
         let currentQuizChapterName = 'यादृच्छिक'; 
         let lifelineCount = 2; // 50:50 लाइफलाइन की गिनती
-        let lastQuizContext = { type: 'random', class: '9', chapterCode: 'यादृच्छिक प्रश्न', chapterName: 'यादृच्छिक प्रश्न' }; // नया: अंतिम क्विज़ संदर्भ
+        let lastQuizContext = { type: 'random', class: '9', chapterCode: 'यादृच्छिक प्रश्न', chapterName: 'यादृच्छिक प्रश्न' }; 
 
         // ऑडियो ऑब्जेक्ट्स: कृपया सुनिश्चित करें कि 'audio/' फ़ोल्डर में ये फाइलें मौजूद हैं।
         const correctAudio = new Audio('audio/correct.mp3'); 
@@ -374,8 +361,6 @@
         const quizModeDisplay = document.getElementById('quiz-mode-display');
         const chaptersGrid = document.getElementById('chapters-grid');
         const chapterSelectionTitle = document.getElementById('chapter-selection-title');
-        const nameModal = document.getElementById('name-modal');
-        const userNameInput = document.getElementById('user-name-input');
         const resultsDiv = document.getElementById('results');
         const loadingOverlay = document.getElementById('loading-overlay');
         const lifelineBtn = document.getElementById('lifeline-btn');
@@ -386,6 +371,7 @@
         async function loadQuizData() {
             try {
                 // सभी JSON फ़ाइलों को एक साथ लोड करें
+                // कृपया सुनिश्चित करें कि 'data/' फ़ोल्डर में class9.json, class10.json, और special.json फ़ाइलें मौजूद हैं
                 const [data9, data10, dataSpecial] = await Promise.all([
                     fetch('data/class9.json').then(res => res.json()),
                     fetch('data/class10.json').then(res => res.json()),
@@ -416,8 +402,7 @@
         // --- B. इवेंट लिसनर्स और नेविगेशन ---
 
         function attachEventListeners() {
-            document.getElementById('start-quiz-with-name-btn').addEventListener('click', handleNameInput);
-            document.getElementById('skip-name-btn').addEventListener('click', handleSkipName);
+            // नाम इनपुट से संबंधित लिसनर्स हटा दिए गए हैं
             document.getElementById('class-9-btn').addEventListener('click', () => selectClass('9'));
             document.getElementById('class-10-btn').addEventListener('click', () => selectClass('10'));
             document.getElementById('chapter-wise-btn').addEventListener('click', showChapterSelection);
@@ -425,30 +410,15 @@
             document.getElementById('back-to-class-btn').addEventListener('click', showClassSelection);
             document.getElementById('back-to-mode-btn').addEventListener('click', showModeSelection);
             
-            // नया: परिणाम स्क्रीन बटन
+            // परिणाम स्क्रीन बटन
             document.getElementById('reattempt-button').addEventListener('click', reattemptQuiz); 
             document.getElementById('back-to-main-menu-button').addEventListener('click', showClassSelection); 
             
             document.getElementById('pause-resume-btn').addEventListener('click', togglePause);
-            document.getElementById('lifeline-btn').addEventListener('click', use5050Lifeline); // लाइफलाइन इवेंट लिसनर
+            document.getElementById('lifeline-btn').addEventListener('click', use5050Lifeline); 
         }
 
-        function handleNameInput() {
-            const name = userNameInput.value.trim();
-            if (name) {
-                userName = name;
-                nameModal.style.display = 'none';
-                showClassSelection();
-            } else {
-                alert("कृपया अपना नाम दर्ज करें। यदि आप नाम नहीं देना चाहते हैं, तो 'नाम के बिना जारी रखें' पर क्लिक करें।");
-            }
-        }
-
-        function handleSkipName() {
-            userName = "अज्ञात उपयोगकर्ता";
-            nameModal.style.display = 'none';
-            showClassSelection();
-        }
+        // handleNameInput और handleSkipName फ़ंक्शन हटा दिए गए हैं
 
         function showClassSelection() {
             [classSelectionMenu, modeSelectionMenu, chapterSelection, quizScreen, resultScreen].forEach(el => el.style.display = 'none');
@@ -756,7 +726,6 @@
             }
             
             updateLifelineButton();
-            // alert(`50:50 का उपयोग किया गया! अब ${lifelineCount} लाइफलाइन शेष हैं।`);
         }
 
         function updateLifelineButton() {
@@ -786,7 +755,7 @@
             const totalTimeTakenSec = Math.round(totalTimeTakenMs / 1000); 
             
             const resultTitle = resultScreen.querySelector('h2');
-            resultTitle.textContent = `${userName !== "अज्ञात उपयोगकर्ता" ? userName + ',' : ''} क्विज़ समाप्त! 🎉`;
+            resultTitle.textContent = `क्विज़ समाप्त! 🎉`; // नाम इनपुट हटा दिए जाने के बाद शीर्षक को स्थिर रखा गया है।
 
             resultsDiv.innerHTML = `
                 <p>आपका अंतिम स्कोर है:</p>
@@ -841,7 +810,8 @@
 
         function initializeQuiz() {
             attachEventListeners(); 
-            nameModal.style.display = 'flex';
+            // अब नाम पॉप-अप को छोड़ दें और सीधे क्लास चयन दिखाएँ
+            showClassSelection();
         }
 
         // पेज लोड होने पर डेटा लोड करें
