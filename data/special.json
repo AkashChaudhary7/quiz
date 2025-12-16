@@ -7,5 +7,5 @@
     { "id": 4, "question": "साधारण नमक (Common Salt) का रासायनिक सूत्र ____ है।", "options": ["KCl", "Na₂CO₃", "NaCl", "Ca(OH)₂"], "answer": "NaCl", "chapter": "SI मात्रक और सूत्र", "type": "fill_in_the_blanks" },
     { "id": 5, "question": "आवृत्ति (Frequency) का SI मात्रक हर्ट्ज़ (Hz) है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" },
     { "id": 6, "question": "पानी (Water) का रासायनिक सूत्र H₂O है।", "options": ["सत्य", "असत्य"], "answer": "सत्य", "chapter": "SI मात्रक और सूत्र", "type": "true_false" }
-  ]
+  ],
 }
