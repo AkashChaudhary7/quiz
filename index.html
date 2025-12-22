@@ -34,32 +34,29 @@
         .progress-container { width: 100%; background-color: #e9ecef; border-radius: 10px; height: 12px; margin-bottom: 20px; display: none; overflow: hidden; border: 1px solid #ddd; }
         #progress-bar { height: 100%; background-color: var(--secondary-color); width: 0%; transition: width 0.3s ease; }
 
-        /* Quiz Header */
         .status-header { display: flex; justify-content: space-between; align-items: center; background: #e9ecef; padding: 15px; border-radius: 10px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         #timer-box { background: var(--alert-color); color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; min-width: 90px; }
 
-        /* Options */
         .option-item { background: var(--bg-light); padding: 18px; border-radius: 8px; border: 2px solid #ced4da; margin-bottom: 12px; cursor: pointer; list-style: none; text-align: left; font-size: 1.1em; transition: 0.2s; }
         .option-item.correct { background-color: #d4edda; border-color: var(--secondary-color); font-weight: bold; }
         .option-item.incorrect { background-color: #f8d7da; border-color: var(--alert-color); font-weight: bold; }
         .option-item.removed-5050 { opacity: 0.2; pointer-events: none; }
         
-        /* PDF Preview */
         #pdf-viewer-container { display: none; width: 100%; margin-top: 20px; position: relative; }
         .pdf-frame { width: 100%; height: 600px; border: 2px solid #ddd; border-radius: 10px; background: #eee; }
 
-        /* Answer Review */
         .review-item { text-align: left; padding: 15px; border-radius: 10px; background: #fdfdfd; border-left: 5px solid #ccc; margin-bottom: 10px; }
         .was-correct { border-left-color: var(--secondary-color); }
         .was-incorrect { border-left-color: var(--alert-color); }
 
-        /* Loading */
         #loading-overlay { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .spinner { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .chapters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
         .chapter-box { background-color: var(--bg-light); padding: 20px; border-radius: 12px; border-left: 5px solid var(--primary-color); text-align: left; cursor: pointer; }
+        
+        .footer { margin-top: 30px; padding: 20px; color: #555; font-size: 0.9em; font-weight: 600; text-align: center; border-top: 1px solid #eee; width: 100%; }
+        .heart { color: #e31b23; }
     </style>
 </head>
 <body>
@@ -131,6 +128,10 @@
             <div id="chapters-grid" class="chapters-grid"></div>
             <button onclick="showScreen('mode-selection-menu')" class="skip-btn" style="margin-top:20px;">वापस</button>
         </div>
+
+        <div class="footer">
+            || Made with <span class="heart">❤️</span> by Akash Chaudhary ||
+        </div>
     </div>
 
     <script>
@@ -139,11 +140,9 @@
         let quizQuestions = [], userResponses = [], currentQuestionIndex = 0, score = 0, timeLeft = TIME_LIMIT;
         let timerInterval, lifelines = 2, currentClass = null, isAnswered = false, isPaused = false, lastMode = "";
 
-        // ऑडियो सिंक
         const correctAudio = new Audio('audio/correct.mp3'); 
         const incorrectAudio = new Audio('audio/incorrect.mp3');
 
-        // JSON डेटा सिंक
         async function loadData() {
             try {
                 const [d9, d10] = await Promise.all([
@@ -157,12 +156,15 @@
         }
 
         function showScreen(id) {
-            document.querySelectorAll('.container > div:not(.progress-container)').forEach(d => d.style.display = 'none');
+            document.querySelectorAll('.container > div:not(.progress-container)').forEach(d => {
+                if (d.id !== 'loading-overlay') d.style.display = 'none';
+            });
             document.getElementById('progress-container').style.display = (id === 'quiz-screen') ? 'block' : 'none';
             document.getElementById(id).style.display = (id === 'quiz-screen' || id === 'chapter-selection-screen') ? 'block' : 'flex';
+            // Ensure footer always shows
+            document.querySelector('.footer').style.display = 'block';
         }
 
-        // नोट्स और प्रिव्यू सिंक
         function handleNotes(cls) {
             const rawUrl = `https://raw.githubusercontent.com/AkashChaudhary7/quiz/main/notes/SCIENCE%20CLASS%20${cls}%20-%20ALL%20CHAPTER%20NOTES.pdf`;
             const previewUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
@@ -218,14 +220,8 @@
         function checkAnswer(li, sel, cor) {
             if(isAnswered || isPaused) return; isAnswered = true; clearInterval(timerInterval);
             userResponses.push({q: quizQuestions[currentQuestionIndex].question, s: sel || "समय समाप्त", c: cor, ok: sel === cor});
-            if(sel === cor) { 
-                li.classList.add('correct'); score++; 
-                correctAudio.play().catch(e=>{}); // सही उत्तर साउंड
-            } else { 
-                if(li) li.classList.add('incorrect'); 
-                incorrectAudio.play().catch(e=>{}); // गलत उत्तर साउंड
-                Array.from(document.querySelectorAll('.option-item')).forEach(i => {if(i.textContent===cor) i.classList.add('correct');}); 
-            }
+            if(sel === cor) { li.classList.add('correct'); score++; correctAudio.play().catch(e=>{}); } 
+            else { if(li) li.classList.add('incorrect'); incorrectAudio.play().catch(e=>{}); Array.from(document.querySelectorAll('.option-item')).forEach(i => {if(i.textContent===cor) i.classList.add('correct');}); }
             setTimeout(() => { currentQuestionIndex++; if(currentQuestionIndex < quizQuestions.length) showQuestion(); else showResults(); }, 1200);
         }
 
