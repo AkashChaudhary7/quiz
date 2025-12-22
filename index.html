@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>विज्ञान पोर्टल - Full Screen Modern Quiz</title>
+    <title>विज्ञान पोर्टल - Final Modern Version</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -22,102 +22,85 @@
             background-color: var(--bg); 
             color: var(--text); 
             margin: 0; 
-            padding: 0;
             display: flex; 
             flex-direction: column;
-            min-height: 100vh; 
+            align-items: center; /* क्षैतिज रूप से केंद्र */
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
         }
 
-        /* Full Screen Container - No width limits */
         .container { 
-            width: 100%; 
-            flex-grow: 1;
+            width: 95%; 
+            max-width: 1100px;
             background: var(--white); 
-            padding: 40px 5%; 
-            text-align: center; 
+            padding: 40px 20px; 
+            margin: 20px auto;
+            border-radius: 30px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
-            transition: all 0.4s ease;
+            transition: 0.3s;
         }
 
-        h1 { font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-top: 0; }
-        .menu-screen { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
+        h1 { font-size: 2.2rem; font-weight: 700; color: var(--primary); margin: 0 0 15px 0; }
+        .menu-screen { width: 100%; max-width: 700px; display: flex; flex-direction: column; gap: 15px; align-items: center; }
 
-        /* Modern Buttons */
-        .btn { border: none; padding: 20px 30px; font-size: 1.1rem; font-weight: 600; border-radius: 20px; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 25px rgba(67, 97, 238, 0.2); }
+        /* Buttons */
+        .btn { border: none; padding: 18px 25px; font-size: 1.1rem; font-weight: 600; border-radius: 18px; cursor: pointer; transition: 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 500px; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2); }
         .btn-success { background: var(--success); color: white; }
+        .btn-warning { background: var(--warning); color: #333; }
         .btn-gray { background: #e2e8f0; color: #475569; }
-        .btn:hover { transform: translateY(-5px); filter: brightness(1.1); }
+        .btn:hover { transform: translateY(-3px); opacity: 0.9; }
 
-        /* Quiz UI Elements */
-        #progress-container { width: 100%; height: 12px; background: #edf2f7; border-radius: 20px; margin-bottom: 30px; overflow: hidden; }
+        /* Quiz Elements */
+        #progress-container { width: 100%; max-width: 800px; height: 10px; background: #eee; border-radius: 10px; margin-bottom: 25px; overflow: hidden; display: none; }
         #progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); width: 0%; transition: 0.4s; }
 
-        .status-header { width: 100%; max-width: 1000px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 20px; background: #f8fafc; border-radius: 25px; border: 1px solid #e2e8f0; }
-        .option-item { width: 100%; max-width: 1000px; background: #fff; padding: 22px; border-radius: 20px; border: 2px solid #e2e8f0; margin-bottom: 15px; cursor: pointer; text-align: left; list-style: none; font-size: 1.1rem; transition: 0.2s; }
+        .status-header { width: 100%; max-width: 850px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding: 15px 25px; background: #f8fafc; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .q-info { font-weight: 700; color: var(--text); font-size: 1rem; }
+
+        .option-item { width: 100%; max-width: 850px; background: #fff; padding: 20px; border-radius: 18px; border: 2px solid #e2e8f0; margin-bottom: 12px; cursor: pointer; text-align: left; list-style: none; font-size: 1.1rem; transition: 0.2s; }
         .option-item:hover { border-color: var(--primary); background: #f1f5ff; }
-        .option-item.correct { background: #dcfce7; border-color: var(--success); color: #166534; }
-        .option-item.incorrect { background: #fee2e2; border-color: var(--danger); color: #991b1b; }
+        .option-item.correct { background: #dcfce7 !important; border-color: var(--success) !important; color: #166534; }
+        .option-item.incorrect { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; }
 
-        /* --- REDESIGNED RESULT PAGE (FULL SCREEN) --- */
-        #result-screen { width: 100%; max-width: 1200px; animation: fadeIn 0.8s ease; }
-        .result-title { font-size: 1.8rem; font-weight: 500; color: #64748b; margin-bottom: 10px; }
-        .score-display { font-size: 8rem; font-weight: 800; color: var(--primary); line-height: 1; margin: 20px 0; text-shadow: 0 10px 30px rgba(67, 97, 238, 0.1); }
-        
-        .action-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-            gap: 20px; 
-            width: 100%; 
-            max-width: 900px; 
-            margin-top: 50px; 
-        }
-        .action-box { 
-            background: white; 
-            border: 2px solid #f1f5f9; 
-            padding: 30px; 
-            border-radius: 25px; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .action-box:hover { border-color: var(--primary); transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
-        .action-box .icon { font-size: 2.5rem; }
-        .action-box .text { font-weight: 700; color: #334155; }
+        /* Result Screen */
+        .score-box { font-size: 7rem; font-weight: 800; color: var(--primary); margin: 10px 0; line-height: 1; }
+        .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 600px; margin-top: 30px; }
+        .action-item { background: #f8fafc; padding: 20px; border-radius: 20px; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .action-item:hover { border-color: var(--primary); background: #fff; transform: translateY(-5px); }
 
-        /* Review Page */
-        #review-page { position: fixed; inset: 0; background: white; z-index: 9999; display: none; overflow-y: auto; padding: 5%; }
-        .review-item { background: #fffbff; border-left: 8px solid var(--danger); padding: 25px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); text-align: left; }
+        /* Review Overlay */
+        #review-page { position: fixed; inset: 0; background: white; z-index: 9999; display: none; overflow-y: auto; padding: 40px 5%; text-align: left; }
+        .review-card { background: #fff; border-left: 6px solid var(--danger); padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 
-        /* Loader */
+        /* PDF Preview */
+        #pdf-viewer-container { display: none; width: 100%; margin-top: 20px; }
+        .pdf-frame { width: 100%; height: 600px; border-radius: 15px; border: 1px solid #ddd; }
+
+        .footer { width: 100%; padding: 30px; margin-top: auto; font-weight: 600; color: #94a3b8; background: #fff; border-top: 1px solid #eee; text-align: center; }
+        .heart { color: #e71d36; }
+
         #loader { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .footer { margin-top: auto; padding: 40px; font-weight: 600; color: #94a3b8; width: 100%; background: #fff; border-top: 1px solid #eee; }
-        .heart { color: #ff4d6d; }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div><p style="margin-top:20px; font-weight:600;">डेटा लोड हो रहा है...</p></div>
+    <div id="loader"><div class="spinner"></div><p style="margin-top:15px; font-weight:600;">डेटा सिंक हो रहा है...</p></div>
 
     <div class="container">
         <div id="progress-container"><div id="progress-bar"></div></div>
 
         <div id="main-menu" class="menu-screen">
             <h1>📚 विज्ञान पोर्टल</h1>
-            <p style="font-size: 1.2rem; color: #64748b;">कक्षा 9 और 10 के लिए पूर्ण डिजिटल समाधान</p>
-            <button onclick="showScreen('class-selection-menu')" class="btn btn-primary">📝 क्विज़ शुरू करें</button>
-            <button onclick="showScreen('notes-menu')" class="btn btn-success">📖 विज्ञान नोट्स देखें</button>
+            <p style="color: #64748b; margin-bottom: 20px;">सीखने का नया और आधुनिक तरीका</p>
+            <button onclick="showScreen('class-selection-menu')" class="btn btn-primary">📝 क्विज़ खेलें</button>
+            <button onclick="showScreen('notes-menu')" class="btn btn-success">📖 विज्ञान नोट्स</button>
         </div>
 
         <div id="class-selection-menu" class="menu-screen" style="display:none;">
@@ -127,59 +110,65 @@
             <button onclick="showScreen('main-menu')" class="btn btn-gray">वापस</button>
         </div>
 
+        <div id="mode-selection-menu" class="menu-screen" style="display:none;">
+            <h2 id="mode-title">क्विज़ मोड चुनें</h2>
+            <button onclick="showChapterSelection()" class="btn btn-primary">अध्याय-वार क्विज़</button>
+            <button onclick="startRandomQuiz()" class="btn btn-warning">यादृच्छिक 20 प्रश्न (Mix)</button>
+            <button onclick="showScreen('class-selection-menu')" class="btn btn-gray">वापस</button>
+        </div>
+
+        <div id="chapter-selection-screen" style="display:none; width: 100%;">
+            <h2>अध्याय चुनें</h2>
+            <div id="chapters-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; width: 100%; margin: 20px 0;"></div>
+            <button onclick="showScreen('mode-selection-menu')" class="btn btn-gray">वापस</button>
+        </div>
+
         <div id="notes-menu" class="menu-screen" style="display:none;">
-            <h2>विज्ञान नोट्स प्रिव्यू</h2>
-            <div style="display:flex; gap:15px; width:100%;">
-                <button onclick="handleNotes('9')" class="btn btn-primary" style="flex:1;">कक्षा 9</button>
-                <button onclick="handleNotes('10')" class="btn btn-primary" style="flex:1;">कक्षा 10</button>
+            <h2>नोट्स प्रिव्यू</h2>
+            <div style="display:flex; gap:10px; width:100%; max-width: 500px;">
+                <button onclick="handleNotes('9')" class="btn btn-primary" style="flex:1">कक्षा 9</button>
+                <button onclick="handleNotes('10')" class="btn btn-primary" style="flex:1">कक्षा 10</button>
             </div>
-            <div id="pdf-container" style="display:none; width:100%; margin-top:20px;">
-                <iframe id="pdf-frame" style="width:100%; height:700px; border-radius:20px; border:2px solid #eee;" src=""></iframe>
-                <a id="dl-link" href="#" target="_blank" class="btn btn-success" style="margin-top:20px;">⬇️ नोट्स डाउनलोड करें</a>
+            <div id="pdf-viewer-container">
+                <iframe id="pdf-frame" class="pdf-frame" src=""></iframe>
+                <a id="dl-link" href="#" target="_blank" class="btn btn-success" style="margin-top:15px; max-width: 100%;">⬇️ डाउनलोड पीडीएफ</a>
             </div>
-            <button onclick="showScreen('main-menu')" class="btn btn-gray">वापस</button>
+            <button onclick="showScreen('main-menu')" class="btn btn-gray" style="margin-top:15px;">वापस</button>
         </div>
 
         <div id="quiz-screen" style="display:none; width: 100%;">
             <div class="status-header">
-                <button onclick="exitQuiz()" class="btn btn-gray" style="padding:10px 20px; width:auto;">🏠 होम</button>
-                <div id="timer-box" style="font-size: 1.5rem;">⏰ 00:20</div>
-                <button id="lifeline-btn" onclick="useLifeline()" class="btn btn-primary" style="padding:10px 20px; width:auto;">50:50 (<span id="l-count">2</span>)</button>
+                <button onclick="exitQuiz()" class="btn btn-gray" style="width:auto; padding:8px 15px; font-size:0.8rem;">🏠 होम</button>
+                <div class="q-info">प्रश्न: <span id="q-no">1/20</span></div>
+                <div id="timer-box" style="font-weight:700;">⏰ 00:20</div>
+                <button id="lifeline-btn" onclick="use5050()" class="btn btn-primary" style="width:auto; padding:8px 15px; font-size:0.8rem;">50:50 (<span id="l-count">2</span>)</button>
             </div>
-            <p id="q-text" style="font-size: 1.8rem; font-weight: 600; text-align: left; margin: 40px 0;"></p>
+            <p id="q-text" style="font-size: 1.5rem; font-weight: 600; margin: 30px 0; text-align: left;"></p>
             <ul id="opt-container" style="padding:0; width: 100%;"></ul>
-            <div style="display:flex; gap:20px; margin-top:40px; width: 100%; max-width: 800px;">
-                <button onclick="pauseQuiz()" id="p-btn" class="btn btn-gray">⏸️ रोकें</button>
-                <button onclick="restartQuiz()" class="btn btn-gray">🔄 रिस्टार्ट</button>
+            <div style="display:flex; gap:15px; margin-top:30px; width:100%; justify-content: center;">
+                <button onclick="pauseQuiz()" id="p-btn" class="btn btn-gray" style="max-width:200px;">⏸️ रोकें</button>
+                <button onclick="restartQuiz()" class="btn btn-gray" style="max-width:200px;">🔄 रिस्टार्ट</button>
             </div>
         </div>
 
-        <div id="result-screen" style="display:none;">
-            <p class="result-title">आपका स्कोर</p>
-            <div id="final-score" class="score-display">0/20</div>
-            <h2 id="feedback-msg" style="color: #475569;">शानदार प्रयास!</h2>
-
+        <div id="result-screen" style="display:none; width: 100%;">
+            <p style="font-size: 1.5rem; color: #64748b; margin: 0;">आपका स्कोर</p>
+            <div class="score-box" id="final-score">0/20</div>
+            <h2 id="feedback">शानदार प्रयास!</h2>
+            
             <div class="action-grid">
-                <div class="action-box" onclick="showScreen('main-menu')">
-                    <span class="icon">🏠</span>
-                    <span class="text">होम पेज</span>
-                </div>
-                <div class="action-box" onclick="shareResult()">
-                    <span class="icon">WhatsApp</span>
-                    <span class="text">शेयर करें</span>
-                </div>
-                <div class="action-box" onclick="openReview()">
-                    <span class="icon">📖</span>
-                    <span class="text">उत्तर कुंजी</span>
-                </div>
+                <div class="action-item" onclick="showScreen('main-menu')"><span>🏠</span><span style="font-weight:600;">होम</span></div>
+                <div class="action-item" onclick="shareScore()"><span>📤</span><span style="font-weight:600;">शेयर</span></div>
+                <div class="action-item" onclick="openReview()"><span>📖</span><span style="font-weight:600;">उत्तर कुंजी</span></div>
             </div>
         </div>
+
     </div>
 
     <div id="review-page">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
             <h1>समीक्षा: गलत उत्तर</h1>
-            <button onclick="closeReview()" class="btn btn-gray" style="width:auto;">❌ बंद करें</button>
+            <button onclick="closeReview()" class="btn btn-gray" style="width:auto;">बंद करें</button>
         </div>
         <div id="review-list"></div>
     </div>
@@ -187,9 +176,9 @@
     <div class="footer">|| Made with <span class="heart">❤️</span> by Akash Chaudhary ||</div>
 
     <script>
-        let questions_data = {'9':[], '10':[], 'special':[]};
-        let quizQ = [], userResp = [], currentQIdx = 0, score = 0;
-        let timer, timeLeft, lifelines = 2, currentClass = '', isPaused = false;
+        let questions_data = {'9':[], '10':[], 'special':[]}, chapters_data = {'9':[], '10':[]};
+        let quizQ = [], userResp = [], currentIdx = 0, score = 0, lifelines = 2;
+        let timer, timeLeft, isPaused = false, currentClass = '';
 
         const sndCorrect = new Audio('audio/correct.mp3');
         const sndWrong = new Audio('audio/incorrect.mp3');
@@ -201,73 +190,80 @@
                     fetch('data/class10.json').then(r => r.json()),
                     fetch('data/special.json').then(r => r.json())
                 ]);
-                questions_data['9'] = d9.questions;
-                questions_data['10'] = d10.questions;
+                questions_data['9'] = d9.questions; chapters_data['9'] = d9.chapters;
+                questions_data['10'] = d10.questions; chapters_data['10'] = d10.chapters;
                 questions_data['special'] = dSp.questions;
                 document.getElementById('loader').style.display = 'none';
-            } catch (e) { alert("डेटा सिंक एरर!"); }
+            } catch (e) { alert("Data Sync Error! Check Folders."); }
         }
 
         function showScreen(id) {
-            document.querySelectorAll('.container > div:not(#progress-container)').forEach(d => d.style.display='none');
-            document.getElementById('progress-container').style.display = (id==='quiz-screen') ? 'block' : 'none';
-            document.getElementById(id).style.display = (id==='quiz-screen' || id==='result-screen') ? 'block' : 'flex';
+            document.querySelectorAll('.container > div:not(#progress-container)').forEach(d => d.style.display = 'none');
+            document.getElementById('progress-container').style.display = (id === 'quiz-screen') ? 'block' : 'none';
+            document.getElementById(id).style.display = (id === 'quiz-screen' || id === 'result-screen' || id === 'chapter-selection-screen') ? 'block' : 'flex';
         }
 
-        function selectClass(cls) {
-            currentClass = cls;
-            quizQ = questions_data[cls].concat(questions_data['special']).sort(()=>0.5-Math.random()).slice(0, 20);
+        function selectClass(cls) { currentClass = cls; showScreen('mode-selection-menu'); }
+
+        function showChapterSelection() {
+            showScreen('chapter-selection-screen');
+            const grid = document.getElementById('chapters-grid'); grid.innerHTML = '';
+            chapters_data[currentClass].forEach(ch => {
+                const div = document.createElement('div');
+                div.className = 'option-item';
+                div.innerHTML = `<strong>${ch.name}</strong><br><small>${ch.sub}</small>`;
+                div.onclick = () => {
+                    quizQ = questions_data[currentClass].filter(q => q.chapter === ch.code).sort(()=>0.5-Math.random()).slice(0, 20);
+                    startQuiz();
+                };
+                grid.appendChild(div);
+            });
+        }
+
+        function startRandomQuiz() {
+            quizQ = questions_data[currentClass].concat(questions_data['special']).sort(()=>0.5-Math.random()).slice(0, 20);
             startQuiz();
         }
 
         function startQuiz() {
-            currentQIdx = 0; score = 0; lifelines = 2; userResp = []; isPaused = false;
+            currentIdx = 0; score = 0; lifelines = 2; userResp = [];
             showScreen('quiz-screen');
-            loadQuestion();
+            loadQ();
         }
 
-        function loadQuestion() {
-            if(currentQIdx >= quizQ.length) return endQuiz();
-            const q = quizQ[currentQIdx];
-            document.getElementById('progress-bar').style.width = `${(currentQIdx / quizQ.length) * 100}%`;
+        function loadQ() {
+            if(currentIdx >= quizQ.length) return endQuiz();
+            const q = quizQ[currentIdx];
+            document.getElementById('progress-bar').style.width = `${(currentIdx / quizQ.length) * 100}%`;
+            document.getElementById('q-no').textContent = `${currentIdx + 1}/${quizQ.length}`;
             document.getElementById('q-text').textContent = q.question;
             document.getElementById('l-count').textContent = lifelines;
             
-            const container = document.getElementById('opt-container');
-            container.innerHTML = '';
-            q.options.forEach(opt => {
+            const cont = document.getElementById('opt-container');
+            cont.innerHTML = '';
+            q.options.forEach(o => {
                 const li = document.createElement('li');
                 li.className = 'option-item';
-                li.textContent = opt;
-                li.onclick = () => checkAns(li, opt, q.answer);
-                container.appendChild(li);
+                li.textContent = o;
+                li.onclick = () => checkAns(li, o, q.answer);
+                cont.appendChild(li);
             });
             resetTimer();
         }
 
         function checkAns(li, sel, cor) {
             clearInterval(timer);
-            const isCorrect = sel === cor;
-            userResp.push({q: quizQ[currentQIdx].question, sel, cor, ok: isCorrect});
-
-            if(isCorrect) {
-                li.classList.add('correct'); score++;
-                sndCorrect.play().catch(()=>{});
-            } else {
-                li.classList.add('incorrect');
-                sndWrong.play().catch(()=>{});
-                document.querySelectorAll('.option-item').forEach(i => {
-                    if(i.textContent === cor) i.classList.add('correct');
-                });
-            }
-
-            setTimeout(() => { currentQIdx++; loadQuestion(); }, 1200);
+            const ok = sel === cor;
+            userResp.push({q: quizQ[currentIdx].question, sel, cor, ok});
+            if(ok) { li.classList.add('correct'); score++; sndCorrect.play().catch(()=>{}); }
+            else { li.classList.add('incorrect'); sndWrong.play().catch(()=>{}); Array.from(document.querySelectorAll('.option-item')).forEach(i => {if(i.textContent===cor) i.classList.add('correct');}); }
+            setTimeout(() => { currentIdx++; loadQ(); }, 1200);
         }
 
         function endQuiz() {
             showScreen('result-screen');
             document.getElementById('final-score').textContent = `${score}/${quizQ.length}`;
-            document.getElementById('feedback-msg').textContent = score > 15 ? "शानदार प्रदर्शन! 🏆" : "अच्छा प्रयास! 📚";
+            document.getElementById('feedback').textContent = score > 15 ? "अतुलनीय! 🌟" : score > 10 ? "बहुत अच्छा! 👍" : "प्रयास करते रहें।";
         }
 
         function handleNotes(cls) {
@@ -275,53 +271,49 @@
             const url = `https://raw.githubusercontent.com/AkashChaudhary7/quiz/main/notes/${file}`;
             document.getElementById('pdf-frame').src = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
             document.getElementById('dl-link').href = url;
-            document.getElementById('pdf-container').style.display = 'block';
+            document.getElementById('pdf-viewer-container').style.display = 'block';
         }
 
         function resetTimer() {
             timeLeft = 20;
-            document.getElementById('timer-box').textContent = `⏰ 00:${timeLeft}`;
             clearInterval(timer);
             timer = setInterval(() => {
                 if(!isPaused) {
                     timeLeft--;
                     document.getElementById('timer-box').textContent = `⏰ 00:${timeLeft < 10 ? '0'+timeLeft : timeLeft}`;
-                    if(timeLeft <= 0) { clearInterval(timer); checkAns(null, null, quizQ[currentQIdx].answer); }
+                    if(timeLeft <= 0) { clearInterval(timer); checkAns(null, null, quizQ[currentIdx].answer); }
                 }
             }, 1000);
-        }
-
-        function useLifeline() {
-            if(lifelines <= 0) return;
-            const cor = quizQ[currentQIdx].answer;
-            let hidden = 0;
-            document.querySelectorAll('.option-item').forEach(li => {
-                if(li.textContent !== cor && hidden < 2) { li.style.display = 'none'; hidden++; }
-            });
-            lifelines--; document.getElementById('l-count').textContent = lifelines;
         }
 
         function openReview() {
             const list = document.getElementById('review-list');
             list.innerHTML = '';
             userResp.filter(r => !r.ok).forEach(w => {
-                list.innerHTML += `<div class="review-item">
-                    <h3>Q: ${w.q}</h3>
-                    <p style="color:var(--danger)">आपका उत्तर: ${w.sel}</p>
-                    <p style="color:var(--success)">सही उत्तर: ${w.cor}</p>
-                </div>`;
+                list.innerHTML += `<div class="review-card"><strong>Q: ${w.q}</strong><br><span style="color:var(--danger)">आपका: ${w.sel}</span><br><span style="color:var(--success)">सही: ${w.cor}</span></div>`;
             });
             document.getElementById('review-page').style.display = 'block';
         }
 
-        function closeReview() { document.getElementById('review-page').style.display = 'none'; }
-        function shareResult() {
-            const text = `मैंने विज्ञान क्विज़ में 20 में से ${score} स्कोर किया! खेलें यहाँ: ${window.location.href}`;
+        function use5050() {
+            if(lifelines <= 0) return;
+            const cor = quizQ[currentIdx].answer;
+            let hidden = 0;
+            document.querySelectorAll('.option-item').forEach(li => {
+                if(li.textContent !== cor && hidden < 2) { li.style.visibility = 'hidden'; hidden++; }
+            });
+            lifelines--; document.getElementById('l-count').textContent = lifelines;
+        }
+
+        function shareScore() {
+            const text = `मैंने विज्ञान क्विज़ में ${score}/20 स्कोर किया! खेलें यहाँ: ${window.location.href}`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
         }
+
         function pauseQuiz() { isPaused = !isPaused; document.getElementById('p-btn').textContent = isPaused ? "▶️ जारी रखें" : "⏸️ रोकें"; }
         function restartQuiz() { if(confirm("रिस्टार्ट करें?")) startQuiz(); }
-        function exitQuiz() { if(confirm("होम पर जाएं?")) { clearInterval(timer); showScreen('main-menu'); } }
+        function exitQuiz() { if(confirm("होम?")) { clearInterval(timer); showScreen('main-menu'); } }
+        function closeReview() { document.getElementById('review-page').style.display = 'none'; }
 
         window.onload = init;
     </script>
