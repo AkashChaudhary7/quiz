@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>विज्ञान पोर्टल | क्विज़, नोट्स & प्रिव्यू</title>
+    <title>विज्ञान पोर्टल | अपडेटेड वर्जन</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -22,46 +22,55 @@
         h1 { color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
         .menu-screen { display: flex; flex-direction: column; gap: 15px; align-items: center; padding: 20px; }
         
-        .mode-button, .action-btn, .skip-btn { width: 100%; padding: 15px; font-size: 1.2em; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 10px; text-decoration: none; display: inline-block; }
+        .mode-button, .action-btn, .skip-btn { width: 100%; padding: 15px; font-size: 1.1em; font-weight: 600; border: none; border-radius: 10px; cursor: pointer; transition: 0.3s; margin-bottom: 10px; text-decoration: none; display: inline-block; }
         .main-btn { background-color: var(--secondary-color); color: white; }
         .action-btn { background-color: var(--primary-color); color: white; }
         .skip-btn { background-color: #6c757d; color: white; }
         .notes-btn { background-color: #6f42c1; color: white; }
-        .download-btn { background-color: #e83e8c; color: white; margin-top: 10px; }
-        .share-btn { background-color: #25d366; color: white; }
 
         /* Progress Bar */
         .progress-container { width: 100%; background-color: #e9ecef; border-radius: 10px; height: 12px; margin-bottom: 20px; display: none; overflow: hidden; border: 1px solid #ddd; }
         #progress-bar { height: 100%; background-color: var(--secondary-color); width: 0%; transition: width 0.3s ease; }
 
+        /* Status Header */
         .status-header { display: flex; justify-content: space-between; align-items: center; background: #e9ecef; padding: 15px; border-radius: 10px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         #timer-box { background: var(--alert-color); color: white; padding: 8px 15px; border-radius: 8px; font-weight: bold; min-width: 90px; }
 
+        /* Quiz Gameplay */
         .option-item { background: var(--bg-light); padding: 18px; border-radius: 8px; border: 2px solid #ced4da; margin-bottom: 12px; cursor: pointer; list-style: none; text-align: left; font-size: 1.1em; transition: 0.2s; }
         .option-item.correct { background-color: #d4edda; border-color: var(--secondary-color); font-weight: bold; }
         .option-item.incorrect { background-color: #f8d7da; border-color: var(--alert-color); font-weight: bold; }
         .option-item.removed-5050 { opacity: 0.2; pointer-events: none; }
         
-        #pdf-viewer-container { display: none; width: 100%; margin-top: 20px; position: relative; }
-        .pdf-frame { width: 100%; height: 600px; border: 2px solid #ddd; border-radius: 10px; background: #eee; }
+        /* PDF Viewer */
+        #pdf-viewer-container { display: none; width: 100%; margin-top: 20px; }
+        .pdf-frame { width: 100%; height: 600px; border: 2px solid #ddd; border-radius: 10px; }
 
-        .review-item { text-align: left; padding: 15px; border-radius: 10px; background: #fdfdfd; border-left: 5px solid #ccc; margin-bottom: 10px; }
+        /* Result Screen Improvements */
+        #results-card { background: #f1f8ff; padding: 40px; border-radius: 20px; border: 2px solid var(--primary-color); margin-bottom: 30px; }
+        .score-text { font-size: 4em; color: var(--secondary-color); font-weight: 800; display: block; }
+        .result-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .result-actions button { width: auto !important; min-width: 140px; padding: 10px 20px; font-size: 0.95em; }
+
+        /* Review Section */
+        #answer-key { text-align: left; padding: 20px; background: white; border-radius: 15px; margin-top: 20px; border: 1px solid #ddd; }
+        .review-item { padding: 15px; border-radius: 10px; background: #fafafa; border-left: 5px solid #ccc; margin-bottom: 15px; }
         .was-correct { border-left-color: var(--secondary-color); }
         .was-incorrect { border-left-color: var(--alert-color); }
 
         #loading-overlay { position: fixed; inset: 0; background: white; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .spinner { border: 6px solid #f3f3f3; border-top: 6px solid var(--primary-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .chapters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
         .chapter-box { background-color: var(--bg-light); padding: 20px; border-radius: 12px; border-left: 5px solid var(--primary-color); text-align: left; cursor: pointer; }
-        
         .footer { margin-top: 30px; padding: 20px; color: #555; font-size: 0.9em; font-weight: 600; text-align: center; border-top: 1px solid #eee; width: 100%; }
         .heart { color: #e31b23; }
     </style>
 </head>
 <body>
 
-    <div id="loading-overlay"><div class="spinner"></div><p>डेटा लोड हो रहा है...</p></div>
+    <div id="loading-overlay"><div class="spinner"></div><p>डेटा सिंक हो रहा है...</p></div>
 
     <div class="container">
         <div id="progress-container" class="progress-container"><div id="progress-bar"></div></div>
@@ -83,13 +92,10 @@
             <h3>विषय नोट्स:</h3>
             <button onclick="handleNotes('9')" class="mode-button action-btn">📄 कक्षा 9 नोट्स देखें</button>
             <button onclick="handleNotes('10')" class="mode-button action-btn">📄 कक्षा 10 नोट्स देखें</button>
-            
             <div id="pdf-viewer-container">
-                <p id="loading-pdf" style="display:none;">प्रिव्यू लोड हो रहा है...</p>
                 <iframe id="pdf-frame" class="pdf-frame" src=""></iframe>
-                <a id="direct-download-link" href="#" target="_blank" class="mode-button download-btn">⬇️ फाइल डाउनलोड करें</a>
+                <a id="direct-download-link" href="#" target="_blank" class="mode-button main-btn" style="background:#e83e8c;">⬇️ डाउनलोड फाइल</a>
             </div>
-            
             <button onclick="showScreen('main-menu')" class="skip-btn" style="margin-top:20px;">वापस</button>
         </div>
 
@@ -110,12 +116,19 @@
         </div>
 
         <div id="result-screen" style="display:none;">
-            <h2>परिणाम 🎉</h2>
-            <div id="results" style="font-size:2em; color:var(--secondary-color); font-weight:bold; margin-bottom:20px;"></div>
-            <button onclick="shareResult()" class="mode-button share-btn">📤 स्कोर शेयर करें</button>
-            <button onclick="toggleAnswerKey()" class="mode-button action-btn" style="background-color: var(--warning-color); color: #333;">📖 उत्तर कुंजी देखें</button>
-            <button onclick="showScreen('main-menu')" class="mode-button skip-btn">होम</button>
-            <div id="answer-key" style="display:none; margin-top:20px;"></div>
+            <div id="results-card">
+                <h2>क्विज़ परिणाम 🎉</h2>
+                <span id="score-val" class="score-text">0/0</span>
+                <p id="perf-msg" style="font-size:1.1em; color:#555;"></p>
+            </div>
+            
+            <div class="result-actions">
+                <button onclick="shareResult()" class="action-btn" style="background:#25d366;">📤 शेयर</button>
+                <button onclick="toggleAnswerKey()" class="action-btn" style="background:var(--warning-color); color:#333;">📖 उत्तर कुंजी</button>
+                <button onclick="showScreen('main-menu')" class="skip-btn">🏠 होम</button>
+            </div>
+            
+            <div id="answer-key" style="display:none;"></div>
         </div>
 
         <div id="mode-selection-menu" class="menu-screen" style="display:none;">
@@ -135,44 +148,44 @@
     </div>
 
     <script>
-        const MAX_QUESTIONS = 20, TIME_LIMIT = 20;
-        let questions_data = {'9':[], '10':[]}, chapters_data = {'9':[], '10':[]};
+        const MAX_QUESTIONS = 10, TIME_LIMIT = 20;
+        let questions_data = {'9':[], '10':[], 'special':[]}, chapters_data = {'9':[], '10':[]};
         let quizQuestions = [], userResponses = [], currentQuestionIndex = 0, score = 0, timeLeft = TIME_LIMIT;
         let timerInterval, lifelines = 2, currentClass = null, isAnswered = false, isPaused = false, lastMode = "";
 
         const correctAudio = new Audio('audio/correct.mp3'); 
         const incorrectAudio = new Audio('audio/incorrect.mp3');
 
+        // special.json Sync
         async function loadData() {
             try {
-                const [d9, d10] = await Promise.all([
+                const [d9, d10, dSp] = await Promise.all([
                     fetch('data/class9.json').then(res => res.json()),
-                    fetch('data/class10.json').then(res => res.json())
+                    fetch('data/class10.json').then(res => res.json()),
+                    fetch('data/special.json').then(res => res.json())
                 ]);
                 questions_data['9'] = d9.questions; questions_data['10'] = d10.questions;
+                questions_data['special'] = dSp.questions; // Syced special questions
                 chapters_data['9'] = d9.chapters; chapters_data['10'] = d10.chapters;
                 document.getElementById('loading-overlay').style.display = 'none';
-            } catch (e) { alert("Data Sync Error! Check data/ folder."); }
+            } catch (e) { alert("Data Error! Check JSON files."); }
         }
 
         function showScreen(id) {
-            document.querySelectorAll('.container > div:not(.progress-container)').forEach(d => {
-                if (d.id !== 'loading-overlay') d.style.display = 'none';
-            });
+            document.querySelectorAll('.container > div:not(.progress-container)').forEach(d => { if(d.id !== 'loading-overlay') d.style.display = 'none'; });
             document.getElementById('progress-container').style.display = (id === 'quiz-screen') ? 'block' : 'none';
             document.getElementById(id).style.display = (id === 'quiz-screen' || id === 'chapter-selection-screen') ? 'block' : 'flex';
-            // Ensure footer always shows
             document.querySelector('.footer').style.display = 'block';
         }
 
+        // Class 10 PDF Fixed Sync
         function handleNotes(cls) {
-            const rawUrl = `https://raw.githubusercontent.com/AkashChaudhary7/quiz/main/notes/SCIENCE%20CLASS%20${cls}%20-%20ALL%20CHAPTER%20NOTES.pdf`;
+            const fileName = (cls === '9') ? "SCIENCE%20CLASS%209%20-%20ALL%20CHAPTER%20NOTES.pdf" : "SCIENCE%20CLASS%2010%20-%20ALL%20CHAPTER%20NOTES.pdf";
+            const rawUrl = `https://raw.githubusercontent.com/AkashChaudhary7/quiz/main/notes/${fileName}`;
             const previewUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(rawUrl)}&embedded=true`;
             document.getElementById('pdf-frame').src = previewUrl;
             document.getElementById('direct-download-link').href = rawUrl;
             document.getElementById('pdf-viewer-container').style.display = 'block';
-            document.getElementById('loading-pdf').style.display = 'block';
-            document.getElementById('pdf-frame').onload = () => { document.getElementById('loading-pdf').style.display = 'none'; };
         }
 
         function selectClass(cls) { currentClass = cls; showScreen('mode-selection-menu'); }
@@ -191,9 +204,10 @@
             });
         }
 
+        // Random Pool includes special.json questions if applicable
         function startRandomQuiz() {
-            quizQuestions = questions_data[currentClass].sort(()=>.5-Math.random()).slice(0, MAX_QUESTIONS);
-            initQuiz("यादृच्छिक प्रश्न");
+            quizQuestions = questions_data[currentClass].concat(questions_data['special']).sort(()=>.5-Math.random()).slice(0, MAX_QUESTIONS);
+            initQuiz("यादृच्छिक पूल (Mix)");
         }
 
         function initQuiz(mode) {
@@ -219,7 +233,7 @@
 
         function checkAnswer(li, sel, cor) {
             if(isAnswered || isPaused) return; isAnswered = true; clearInterval(timerInterval);
-            userResponses.push({q: quizQuestions[currentQuestionIndex].question, s: sel || "समय समाप्त", c: cor, ok: sel === cor});
+            userResponses.push({q: quizQuestions[currentQuestionIndex].question, s: sel || "Time Up", c: cor, ok: sel === cor});
             if(sel === cor) { li.classList.add('correct'); score++; correctAudio.play().catch(e=>{}); } 
             else { if(li) li.classList.add('incorrect'); incorrectAudio.play().catch(e=>{}); Array.from(document.querySelectorAll('.option-item')).forEach(i => {if(i.textContent===cor) i.classList.add('correct');}); }
             setTimeout(() => { currentQuestionIndex++; if(currentQuestionIndex < quizQuestions.length) showQuestion(); else showResults(); }, 1200);
@@ -249,7 +263,10 @@
 
         function showResults() {
             showScreen('result-screen');
-            document.getElementById('results').innerHTML = `स्कोर: ${score} / ${quizQuestions.length}`;
+            document.getElementById('score-val').textContent = `${score} / ${quizQuestions.length}`;
+            const msg = (score > 15) ? "शानदार प्रदर्शन! 🌟" : (score > 10) ? "अच्छा प्रयास! 👍" : "थोड़ा और अभ्यास करें। 📚";
+            document.getElementById('perf-msg').textContent = msg;
+            
             const key = document.getElementById('answer-key'); key.innerHTML = '<h3>उत्तर कुंजी:</h3>';
             userResponses.forEach(r => {
                 key.innerHTML += `<div class="review-item ${r.ok?'was-correct':'was-incorrect'}">
@@ -263,9 +280,14 @@
             else { window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`); }
         }
 
-        function toggleAnswerKey() { const k = document.getElementById('answer-key'); k.style.display = k.style.display==='none'?'block':'none'; if(k.style.display==='block') k.scrollIntoView({behavior:'smooth'}); }
+        function toggleAnswerKey() { 
+            const k = document.getElementById('answer-key'); 
+            k.style.display = k.style.display==='none'?'block':'none'; 
+            if(k.style.display==='block') k.scrollIntoView({behavior:'smooth'}); 
+        }
+
         function restartQuiz() { if(confirm("रिस्टार्ट?")) initQuiz(lastMode); }
-        function confirmExit() { if(confirm("क्विज़ छोड़कर होम पर जाएं?")) { clearInterval(timerInterval); showScreen('main-menu'); } }
+        function confirmExit() { if(confirm("होम?")) { clearInterval(timerInterval); showScreen('main-menu'); } }
 
         window.onload = loadData;
     </script>
